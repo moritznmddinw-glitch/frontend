@@ -21,9 +21,16 @@ const threadCategories = [
   "HP & Komputer",
   "Drama Korea",
   "Jasa Tugas Belajar",
-  "Kolaborasi",
-  "Startup",
-  "Lainnya"
+  "Kolaborator Ph.D",
+  "Marketing Offline",
+  "Investor",
+  "Anti Penipuan",
+  "Dokter Buka Praktek",
+  "Bantuan Darurat",
+  "Cari Relasi",
+  "AI Digest",
+  "Masa Depan-Ku",
+  "Report Massal",
 ];
 
 function slugify(name) {
