@@ -17,7 +17,7 @@ export default function Header() {
     <header className="w-full border-b bg-white sticky top-0 z-40">
       <div className="max-w-5xl mx-auto flex items-center justify-between px-4 py-3">
         <Link href="/" className="flex items-center gap-2">
-          <Image src="/vectorised-1757601408528.svg" alt="Logo" width={36} height={36} priority />
+          <Image src="images/vectorised-1757601408528.svg" alt="Logo" width={36} height={36} priority />
           <span className="font-bold text-xl text-black hidden sm:inline">Ballerina</span>
         </Link>
         <nav className="hidden sm:flex gap-8 text-base font-medium text-neutral-700">
