@@ -6,55 +6,35 @@ import { useEffect, useState } from "react";
 
 export default function Header() {
   const [isAuthed, setIsAuthed] = useState(false);
-  const [avatarUrl, setAvatarUrl] = useState("/img/default-avatar.png");
 
   useEffect(() => {
     try {
-      const t = localStorage.getItem("token");
-      setIsAuthed(!!t);
-      // In a real app, fetch user profile to get avatar
+      setIsAuthed(!!localStorage.getItem("token"));
     } catch (_) {}
   }, []);
 
   return (
-    <header className="flex items-center justify-between px-3 py-2 border-b bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60">
-      <button
-        className="group inline-flex items-center justify-center rounded p-2 focus:outline-none"
-        id="hamburgerBtn"
-        aria-label="Toggle sidebar"
-        type="button"
-        onClick={() => document.getElementById("sidebar")?.classList.toggle("active")}
-      >
-        <span className="sr-only">Toggle sidebar</span>
-        <span className="block h-[2px] w-5 bg-black group-aria-expanded:rotate-45" />
-        <span className="block h-[2px] w-5 bg-black mt-1" />
-        <span className="block h-[2px] w-5 bg-black mt-1" />
-      </button>
-
-      <Link href="/" className="inline-flex items-center gap-2">
-        <Image src="/images/vectorised-1757522879372.pdf" alt="Logo Brand" width={28} height={28} />
-      </Link>
-
-      <div className="flex items-center gap-2">
-        {isAuthed ? (
-          <button
-            className="inline-flex items-center"
-            onClick={() => {
-              const panel = document.getElementById("profileSidebar");
-              if (panel) panel.style.display = panel.style.display === "block" ? "none" : "block";
-            }}
-          >
-            <Image
-              src={avatarUrl}
-              alt="Profile"
-              width={32}
-              height={32}
-              className="rounded-full"
-            />
-          </button>
-        ) : (
-          <Link href="/login" className="px-3 py-1.5 rounded bg-black text-white text-sm">Masuk</Link>
-        )}
+    <header className="w-full border-b bg-white sticky top-0 z-40">
+      <div className="max-w-5xl mx-auto flex items-center justify-between px-4 py-3">
+        <Link href="/" className="flex items-center gap-2">
+          <Image src="/vectorised-1757601408528.svg" alt="Logo" width={36} height={36} priority />
+          <span className="font-bold text-xl text-black hidden sm:inline">Ballerina</span>
+        </Link>
+        <nav className="hidden sm:flex gap-8 text-base font-medium text-neutral-700">
+          <Link href="/" className="hover:text-black">Home</Link>
+          <Link href="/threads" className="hover:text-black">Threads</Link>
+          <Link href="/about-content" className="hover:text-black">Tentang Kami</Link>
+          <Link href="/rules-content" className="hover:text-black">Aturan</Link>
+        </nav>
+        <div>
+          {isAuthed ? (
+            <Link href="/account">
+              <Image src="/avatar-default.png" alt="Akun" width={32} height={32} className="rounded-full" />
+            </Link>
+          ) : (
+            <Link href="/login" className="px-4 py-1.5 rounded bg-black text-white">Masuk</Link>
+          )}
+        </div>
       </div>
     </header>
   );
