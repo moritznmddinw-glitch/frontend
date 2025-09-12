@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 
 export default function LoginPage() {
-  const backendBase = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080";
+  const backendBase = process.env.NEXT_PUBLIC_API_BASE_URL;
   const githubUrl = `${backendBase}/api/auth/github`;
 
   return (

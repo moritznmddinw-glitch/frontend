@@ -9,7 +9,7 @@ export default function UserProfilePage() {
   const [badges, setBadges] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const API = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080";
+  const API = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   useEffect(() => {
     setLoading(true);
