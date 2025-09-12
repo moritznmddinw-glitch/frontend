@@ -11,7 +11,7 @@ export default function ProfileSidebar() {
     try {
       const t = localStorage.getItem("token");
       if (!t) return;
-      fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080"}/api/user/me`, {
+      fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || "https://instrument-fwd-remedy-ecommerce.trycloudflare.com"}/api/user/me`, {
         headers: { Authorization: `Bearer ${t}` },
       })
         .then((r) => (r.ok ? r.json() : Promise.reject()))
