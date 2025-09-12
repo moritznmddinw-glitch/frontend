@@ -25,7 +25,6 @@ const threadCategories = [
   "Marketing Offline",
   "Investor",
   "Anti Penipuan",
-  "Dokter Buka Praktek",
   "Bantuan Darurat",
   "Cari Relasi",
   "AI Digest",
