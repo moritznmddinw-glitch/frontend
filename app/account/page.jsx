@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 
 export default function AccountPage() {
-  const API = `${process.env.NEXT_PUBLIC_API_BASE_URL};
+  const API = `${process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080"}/api`;
   const authed = useMemo(() => { try { return !!localStorage.getItem("token"); } catch { return false; } }, []);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
