@@ -16,78 +16,89 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="w-full border-b bg-white sticky top-0 z-50">
-      <div className="max-w-5xl mx-auto flex items-center h-14 px-2 sm:px-4 relative">
-        {/* Hamburger menu (mobile only) */}
-        <div className="absolute left-2 sm:left-4 flex items-center h-full">
-          <button
-            className="sm:hidden flex items-center justify-center p-2 rounded hover:bg-neutral-100 focus:outline-none"
-            aria-label="Buka menu navigasi"
-            type="button"
-            // Trigger sidebar open, jika sidebar sudah handle sendiri tidak perlu event di sini
-            onClick={() => {
-              // Trigger click pada hamburger Sidebar jika ada
-              const sidebarButton = document.querySelector("button[aria-label='Buka menu']");
-              if (sidebarButton) sidebarButton.click();
-            }}
-          >
-            <svg width={26} height={26} fill="none" viewBox="0 0 24 24">
-              <path stroke="#222" strokeWidth="2" strokeLinecap="round" d="M5 7h14M5 12h14M5 17h14"/>
-            </svg>
-          </button>
-        </div>
-
-        {/* Logo di tengah */}
-        <div className="flex-1 flex justify-center items-center h-full">
-          <Link href="/" className="flex items-center justify-center h-full">
+    <header className="w-full border-b border-neutral-200 bg-white sticky top-0 z-40">
+      <div className="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
+        
+        {/* Left spacer - untuk menjaga logo tetap di tengah */}
+        <div className="flex-1 sm:flex-none w-32"></div>
+        
+        {/* Centered Logo */}
+        <div className="flex items-center justify-center">
+          <Link href="/" className="flex items-center">
             <Image
-              src="/images/vectorised-1757601408528.svg"
+              src="images/vectorised-1757601408528.svg"
               alt="Logo"
               width={32}
               height={32}
-              className="object-contain"
-              style={{
-                maxHeight: "2.25rem", // 36px
-                paddingTop: "0.25rem",
-                paddingBottom: "0.25rem",
-              }}
               priority
+              className="object-contain"
             />
           </Link>
         </div>
 
-        {/* Avatar/Tombol Login di kanan */}
-        <div className="absolute right-2 sm:right-4 flex items-center h-full">
-          {isAuthed ? (
-            <div className="relative flex items-center">
-              <button
-                onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="focus:outline-none"
-                aria-label="Buka sidebar akun"
-                type="button"
+        {/* Desktop Navigation - positioned absolute untuk tidak mengganggu center logo */}
+        <nav className="hidden lg:flex absolute left-1/2 transform -translate-x-1/2 gap-6 text-sm font-medium">
+          <Link 
+            href="/" 
+            className="text-neutral-600 hover:text-black transition-colors duration-200 py-2 px-1"
+          >
+            Home
+          </Link>
+          <Link 
+            href="/threads" 
+            className="text-neutral-600 hover:text-black transition-colors duration-200 py-2 px-1"
+          >
+            Threads
+          </Link>
+          <Link 
+            href="/about-content" 
+            className="text-neutral-600 hover:text-black transition-colors duration-200 py-2 px-1"
+          >
+            Tentang Kami
+          </Link>
+          <Link 
+            href="/rules-content" 
+            className="text-neutral-600 hover:text-black transition-colors duration-200 py-2 px-1"
+          >
+            Aturan
+          </Link>
+        </nav>
+
+        {/* Right section - Auth */}
+        <div className="flex-1 flex justify-end w-32">
+          <div className="relative">
+            {isAuthed ? (
+              <>
+                <button
+                  onClick={() => setSidebarOpen(!sidebarOpen)}
+                  className="focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2 rounded-full transition-all duration-200 hover:opacity-80"
+                  aria-label="Buka menu profil"
+                  type="button"
+                >
+                  <Image
+                    src="/avatar-default.png"
+                    alt="Profil"
+                    width={32}
+                    height={32}
+                    className="rounded-full border border-neutral-200 object-cover"
+                  />
+                </button>
+                {sidebarOpen && (
+                  <ProfileSidebar onClose={() => setSidebarOpen(false)} />
+                )}
+              </>
+            ) : (
+              <Link
+                href="/login"
+                className="px-4 py-2 text-sm bg-black text-white rounded-lg hover:bg-neutral-800 transition-colors duration-200 font-medium shadow-sm"
               >
-                <Image
-                  src="/avatar-default.png"
-                  alt="Akun"
-                  width={32}
-                  height={32}
-                  className="rounded-full border border-neutral-200 bg-gray-50"
-                />
-              </button>
-              {sidebarOpen && (
-                <ProfileSidebar onClose={() => setSidebarOpen(false)} />
-              )}
-            </div>
-          ) : (
-            <Link
-              href="/login"
-              className="px-3 py-1.5 rounded bg-black text-white font-medium shadow hover:bg-neutral-800 transition"
-            >
-              Masuk
-            </Link>
-          )}
+                Masuk
+              </Link>
+            )}
+          </div>
         </div>
       </div>
     </header>
   );
 }
+
