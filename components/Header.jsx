@@ -18,13 +18,14 @@ export default function Header() {
   return (
     <header className="w-full border-b bg-white sticky top-0 z-40">
       <div className="max-w-5xl mx-auto grid grid-cols-3 items-center h-14 px-2 sm:px-4">
-        {/* Kiri: Kosong pada desktop, hamburger pada mobile */}
+        {/* Hamburger kiri, hanya mobile */}
         <div className="flex items-center h-full">
           <button
             className="sm:hidden flex items-center justify-start p-2 rounded hover:bg-neutral-100 focus:outline-none"
             aria-label="Buka menu navigasi"
             type="button"
             onClick={() => {
+              // Trigger Sidebar hamburger (pastikan aria-label="Buka menu" di Sidebar)
               const sidebarButton = document.querySelector(
                 "button[aria-label='Buka menu']"
               );
@@ -42,7 +43,7 @@ export default function Header() {
           </button>
         </div>
 
-        {/* Tengah: Logo selalu center */}
+        {/* Logo tengah, selalu center */}
         <div className="flex justify-center items-center h-full">
           <Link href="/" className="flex items-center justify-center h-full">
             <Image
@@ -61,7 +62,7 @@ export default function Header() {
           </Link>
         </div>
 
-        {/* Kanan: Avatar/Login */}
+        {/* Avatar/login kanan */}
         <div className="flex items-center justify-end h-full">
           {isAuthed ? (
             <div className="relative flex items-center">
