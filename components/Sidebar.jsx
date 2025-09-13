@@ -69,7 +69,7 @@ export default function Sidebar() {
 
       {/* Sidebar */}
       <aside
-        className={`bg-white border-r border-neutral-200 fixed sm:static inset-y-0 left-0 z-40 w-64 sm:w-56 flex flex-col h-full transition-transform duration-200 ${
+        className={`bg-white border-r border-neutral-200 fixed sm:static inset-y-0 left-0 z-50 w-64 sm:w-56 flex flex-col h-full transition-transform duration-200 ${
           open ? "translate-x-0" : "-translate-x-full"
         } sm:translate-x-0`}
         aria-label="Sidebar"
@@ -162,7 +162,7 @@ export default function Sidebar() {
       {/* Overlay for mobile */}
       {open && (
         <div
-          className="fixed inset-0 z-30 bg-black/30 sm:hidden"
+          className="fixed inset-0 z-50 bg-black/30 sm:hidden"
           aria-label="Sidebar overlay"
           onClick={closeSidebar}
         />
