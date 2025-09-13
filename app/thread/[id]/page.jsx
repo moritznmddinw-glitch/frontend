@@ -34,62 +34,80 @@ export default function ThreadDetailPage({ params }) {
   if (!isAuthed) return <div className="text-sm text-red-600">{error || "Anda harus login untuk melihat thread."}</div>;
 
   return (
-    <section className="max-w-3xl mx-auto py-10 px-4">
+    <main className="max-w-2xl mx-auto py-10 px-4">
       {loading ? (
         <div className="text-sm">Loading...</div>
       ) : error ? (
         <div className="text-sm text-red-600">{error}</div>
       ) : data ? (
-        <div className="space-y-5 bg-white rounded-2xl shadow-md p-7 border">
-          <header>
-            <h2 className="text-2xl font-bold">{data.title}</h2>
-            <div className="text-sm text-neutral-500 mt-1">{formatDate(data.created_at)}</div>
-            <div className="mt-2 text-sm flex items-center gap-2">
-              <span>Pembuat:</span>
-              <Link href={`/user/${encodeURIComponent(data.user?.username || "")}`} className="underline">
+        <>
+          {/* Header */}
+          <h1 className="text-3xl font-bold mb-2">{data.title}</h1>
+          <div className="flex flex-wrap items-center gap-4 text-sm text-neutral-500 mb-1">
+            <span>{formatDate(data.created_at)}</span>
+            <span>•</span>
+            <span>
+              Kategori:{" "}
+              <Link href={`/category/${encodeURIComponent(data.category?.slug || "")}`} className="underline hover:text-blue-700">
+                {data.category?.name || data.category?.slug}
+              </Link>
+            </span>
+            <span>•</span>
+            <span>
+              Oleh:{" "}
+              <Link href={`/user/${encodeURIComponent(data.user?.username || "")}`} className="underline hover:text-blue-700">
                 {data.user?.username}
               </Link>
-            </div>
-            {data.category && (
-              <div className="mt-1 text-sm text-neutral-600">
-                Kategori: <span className="capitalize">{data.category.slug.replace(/-/g, " ")}</span>
-              </div>
-            )}
-          </header>
-
-          {data.summary && <p className="text-sm text-neutral-800 whitespace-pre-wrap mt-3">{data.summary}</p>}
-
-          <div className="mt-4">
-            {data.content_type === "text" ? (
-              <pre className="text-sm whitespace-pre-wrap bg-neutral-50 border rounded p-3">
-                {typeof data.content === "string"
-                  ? data.content
-                  : (data.content && JSON.stringify(data.content, null, 2)) || "Tidak ada konten."}
-              </pre>
-            ) : (
-              <ContentTable content={data.content} />
-            )}
+            </span>
           </div>
 
-          {/* Tampilkan gambar jika ada */}
+          {/* Gambar utama */}
           {data.meta?.image && (
-            <div className="mt-4">
-              <img src={data.meta.image} alt="Gambar Thread" className="rounded max-w-full border" />
+            <div className="my-6">
+              <img
+                src={data.meta.image}
+                alt="Gambar Thread"
+                className="rounded-lg w-full max-h-[420px] object-cover border"
+                style={{background: "#f7f7f7"}}
+              />
             </div>
           )}
 
-          {/* Tampilkan kontak Telegram jika ada */}
+          {/* Ringkasan */}
+          {data.summary && (
+            <p className="text-lg leading-relaxed text-neutral-800 mb-6">{data.summary}</p>
+          )}
+
+          {/* Konten utama */}
+          <article>
+            {data.content_type === "text" ? (
+              <div className="prose prose-neutral max-w-none text-base leading-relaxed mb-8" style={{ whiteSpace: "pre-wrap" }}>
+                {typeof data.content === "string"
+                  ? data.content
+                  : (data.content && JSON.stringify(data.content, null, 2)) || "Tidak ada konten."}
+              </div>
+            ) : (
+              <ContentTable content={data.content} />
+            )}
+          </article>
+
+          {/* Telegram Contact */}
           {data.meta?.telegram && (
-            <div className="mt-4 text-sm">
-              <span className="font-medium">Contact Telegram: </span>
-              <a href={`https://t.me/${data.meta.telegram.replace(/^@/, "")}`} target="_blank" className="underline text-blue-600" rel="noopener noreferrer">
+            <div className="mt-8 flex items-center gap-1 text-base">
+              <span className="font-medium">Contact Telegram:</span>
+              <a
+                href={`https://t.me/${data.meta.telegram.replace(/^@/, "")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline text-blue-700 hover:text-blue-900"
+              >
                 {data.meta.telegram}
               </a>
             </div>
           )}
-        </div>
+        </>
       ) : null}
-    </section>
+    </main>
   );
 }
 
@@ -118,13 +136,13 @@ function ContentTable({ content }) {
 
 function Table({ rows }) {
   return (
-    <div className="overflow-x-auto border rounded">
-      <table className="w-full text-sm">
+    <div className="overflow-x-auto my-4">
+      <table className="w-full bg-white text-sm border border-neutral-200 rounded shadow-sm">
         <tbody>
           {rows.map((r, i) => (
             <tr key={i} className={i % 2 ? "bg-neutral-50" : "bg-white"}>
-              <td className="align-top p-2 w-40 font-medium">{r.label}</td>
-              <td className="align-top p-2">{renderValue(r.value)}</td>
+              <td className="align-top p-2 w-40 font-semibold border-b border-neutral-100">{r.label}</td>
+              <td className="align-top p-2 border-b border-neutral-100">{renderValue(r.value)}</td>
             </tr>
           ))}
         </tbody>
