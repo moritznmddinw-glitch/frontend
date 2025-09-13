@@ -8,8 +8,9 @@ import ProfileSidebar from "./ProfileSidebar";
 export default function Header() {
   const [isAuthed, setIsAuthed] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
-  // Fallback avatar jika gambar gagal load
+  // fallback avatar jika error load
   const [avatarSrc, setAvatarSrc] = useState("/avatar-default.png");
 
   useEffect(() => {
@@ -18,10 +19,21 @@ export default function Header() {
     } catch (_) {}
   }, []);
 
-  // Gaya responsive header
   return (
-    <header className="w-full border-b bg-white sticky top-0 z-40">
-      <div className="max-w-5xl mx-auto flex items-center justify-between px-4 py-2 sm:py-3">
+    <header className="w-full border-b bg-white sticky top-0 z-50">
+      <div className="max-w-5xl mx-auto flex items-center justify-between px-4 py-2 h-16">
+        {/* Hamburger for mobile */}
+        <button
+          className="sm:hidden p-2 mr-2 -ml-2 rounded focus:outline-none focus:bg-neutral-100"
+          onClick={() => setMobileNavOpen(true)}
+          aria-label="Open Menu"
+        >
+          <svg width={28} height={28} fill="none" viewBox="0 0 24 24">
+            <rect width="24" height="24" fill="none"/>
+            <path stroke="#222" strokeWidth="2" strokeLinecap="round" d="M5 7h14M5 12h14M5 17h14"/>
+          </svg>
+        </button>
+
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 min-w-max">
           <Image
@@ -29,23 +41,23 @@ export default function Header() {
             alt="Logo"
             width={36}
             height={36}
+            className="object-contain min-w-[36px] min-h-[36px]"
             priority
-            className="min-w-[36px] min-h-[36px] object-contain"
           />
           <span className="font-bold text-lg sm:text-xl text-black hidden sm:inline">
             Ballerina
           </span>
         </Link>
 
-        {/* Navigation: Desktop */}
-        <nav className="hidden sm:flex gap-6 text-base font-medium text-neutral-700 ml-8 flex-1">
+        {/* Nav desktop */}
+        <nav className="hidden sm:flex gap-8 text-base font-medium text-neutral-700 ml-8 flex-1">
           <Link href="/" className="hover:text-black">Home</Link>
           <Link href="/threads" className="hover:text-black">Threads</Link>
           <Link href="/about-content" className="hover:text-black">Tentang Kami</Link>
           <Link href="/rules-content" className="hover:text-black">Aturan</Link>
         </nav>
 
-        {/* Akun / Auth Button: Right */}
+        {/* Akun kanan */}
         <div className="flex items-center ml-auto">
           {isAuthed ? (
             <div className="relative flex items-center">
@@ -59,7 +71,7 @@ export default function Header() {
                   alt="Akun"
                   width={32}
                   height={32}
-                  className="rounded-full border border-neutral-200"
+                  className="rounded-full border border-neutral-200 bg-gray-50"
                   onError={() => setAvatarSrc("/avatar-default.png")}
                 />
                 <span className="ml-2 font-medium text-black hidden sm:inline">
@@ -73,7 +85,7 @@ export default function Header() {
           ) : (
             <Link
               href="/login"
-              className="px-4 py-1.5 rounded bg-black text-white font-medium shadow hover:bg-neutral-800 transition"
+              className="px-4 py-1.5 rounded bg-black text-white font-medium shadow hover:bg-neutral-800 transition ml-2"
             >
               Masuk
             </Link>
@@ -81,13 +93,33 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile Navigation Bar */}
-      <nav className="flex sm:hidden px-4 pb-2 pt-1 gap-4 text-base font-medium text-neutral-700 border-t bg-white">
-        <Link href="/" className="hover:text-black flex-1 text-center">Home</Link>
-        <Link href="/threads" className="hover:text-black flex-1 text-center">Threads</Link>
-        <Link href="/about-content" className="hover:text-black flex-1 text-center">Tentang</Link>
-        <Link href="/rules-content" className="hover:text-black flex-1 text-center">Aturan</Link>
-      </nav>
+      {/* Mobile Nav Overlay */}
+      {mobileNavOpen && (
+        <div className="fixed inset-0 z-50 bg-black/40 flex">
+          <div className="w-60 bg-white h-full shadow-xl flex flex-col pt-4">
+            <div className="flex items-center justify-between px-4 mb-6">
+              <span className="font-bold text-lg">Menu</span>
+              <button
+                className="p-2 -mr-2"
+                onClick={() => setMobileNavOpen(false)}
+                aria-label="Tutup Menu"
+              >
+                <svg width={24} height={24} fill="none" viewBox="0 0 24 24">
+                  <path stroke="#222" strokeWidth="2" strokeLinecap="round" d="M6 6l12 12M6 18L18 6"/>
+                </svg>
+              </button>
+            </div>
+            <nav className="flex flex-col gap-3 px-4 text-base font-medium text-neutral-800">
+              <Link href="/" className="py-2" onClick={() => setMobileNavOpen(false)}>Home</Link>
+              <Link href="/threads" className="py-2" onClick={() => setMobileNavOpen(false)}>Threads</Link>
+              <Link href="/about-content" className="py-2" onClick={() => setMobileNavOpen(false)}>Tentang Kami</Link>
+              <Link href="/rules-content" className="py-2" onClick={() => setMobileNavOpen(false)}>Aturan</Link>
+            </nav>
+          </div>
+          {/* Klik area hitam untuk tutup */}
+          <div className="flex-1" onClick={() => setMobileNavOpen(false)} />
+        </div>
+      )}
     </header>
   );
 }
