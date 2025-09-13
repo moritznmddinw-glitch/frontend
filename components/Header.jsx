@@ -57,7 +57,10 @@ export default function Header() {
         {/* Profile / Login */}
         <div className="absolute right-4">
           {isAuthed ? (
-            <button className="focus:outline-none">
+            <>
+              <button
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+           <button className="focus:outline-none">
               <Image
                 src="/avatar-default.png"
                 alt="Akun"
@@ -66,6 +69,10 @@ export default function Header() {
                 className="rounded-full"
               />
             </button>
+              {sidebarOpen && (
+                <ProfileSidebar onClose={() => setSidebarOpen(false)} />
+              )}
+            </>
           ) : (
             <Link
               href="/login"
