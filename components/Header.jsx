@@ -4,10 +4,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
+import ProfileSidebar from "./ProfileSidebar";
 
 export default function Header() {
   const [isAuthed, setIsAuthed] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false); // untuk menu utama
+  const [profileOpen, setProfileOpen] = useState(false); // untuk profile sidebar
 
   useEffect(() => {
     try {
@@ -30,10 +32,7 @@ export default function Header() {
         </button>
 
         {/* Logo di tengah */}
-        <Link
-          href="/"
-          className="flex items-center gap-2 mx-auto"
-        >
+        <Link href="/" className="flex items-center gap-2 mx-auto">
           <Image
             src="/images/vectorised-1757601408528.svg"
             alt="Logo"
@@ -59,8 +58,8 @@ export default function Header() {
           {isAuthed ? (
             <>
               <button
-                onClick={() => setSidebarOpen(!sidebarOpen)}
                 className="focus:outline-none"
+                onClick={() => setProfileOpen(!profileOpen)}
               >
                 <Image
                   src="/avatar-default.png"
@@ -70,8 +69,10 @@ export default function Header() {
                   className="rounded-full"
                 />
               </button>
-              {sidebarOpen && (
-                <ProfileSidebar onClose={() => setSidebarOpen(false)} />
+
+              {/* Sidebar profil */}
+              {profileOpen && (
+                <ProfileSidebar onClose={() => setProfileOpen(false)} />
               )}
             </>
           ) : (
@@ -85,7 +86,7 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Sidebar */}
+      {/* Sidebar utama (mobile menu) */}
       <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
     </header>
   );
