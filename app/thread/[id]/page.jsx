@@ -19,7 +19,6 @@ export default function ThreadDetailPage({ params }) {
       setLoading(false);
       return;
     }
-
     let cancelled = false;
     const token = localStorage.getItem("token");
 
@@ -42,7 +41,6 @@ export default function ThreadDetailPage({ params }) {
         <div className="text-sm text-red-600">{error}</div>
       ) : data ? (
         <div className="space-y-5 bg-white rounded-2xl shadow-md p-7 border">
-          {/* Header */}
           <header>
             <h2 className="text-2xl font-bold">{data.title}</h2>
             <div className="text-sm text-neutral-500 mt-1">{formatDate(data.created_at)}</div>
@@ -59,35 +57,33 @@ export default function ThreadDetailPage({ params }) {
             )}
           </header>
 
-          {/* Summary */}
-          {data.summary && (
-            <p className="text-sm text-neutral-800 whitespace-pre-wrap mt-3">{data.summary}</p>
-          )}
+          {data.summary && <p className="text-sm text-neutral-800 whitespace-pre-wrap mt-3">{data.summary}</p>}
 
-          {/* Content */}
           <div className="mt-4">
-            {data.content_type === "table" ? (
-              <ContentTable content={data.content} />
-            ) : (
+            {data.content_type === "text" ? (
               <pre className="text-sm whitespace-pre-wrap bg-neutral-50 border rounded p-3">
-                {data.content || "Tidak ada konten."}
+                {typeof data.content === "string"
+                  ? data.content
+                  : (data.content && JSON.stringify(data.content, null, 2)) || "Tidak ada konten."}
               </pre>
+            ) : (
+              <ContentTable content={data.content} />
             )}
           </div>
 
-          {/* Image */}
+          {/* Tampilkan gambar jika ada */}
           {data.meta?.image && (
             <div className="mt-4">
               <img src={data.meta.image} alt="Gambar Thread" className="rounded max-w-full border" />
             </div>
           )}
 
-          {/* Telegram */}
-          {data.telegram && (
+          {/* Tampilkan kontak Telegram jika ada */}
+          {data.meta?.telegram && (
             <div className="mt-4 text-sm">
               <span className="font-medium">Contact Telegram: </span>
-              <a href={`https://t.me/${data.telegram.replace(/^@/, "")}`} target="_blank" className="underline text-blue-600">
-                {data.telegram}
+              <a href={`https://t.me/${data.meta.telegram.replace(/^@/, "")}`} target="_blank" className="underline text-blue-600" rel="noopener noreferrer">
+                {data.meta.telegram}
               </a>
             </div>
           )}
@@ -97,10 +93,9 @@ export default function ThreadDetailPage({ params }) {
   );
 }
 
-// -------------------- Helper Components --------------------
+// Helper for rendering table-style content (legacy support)
 function ContentTable({ content }) {
   if (!content) return <div className="text-sm text-neutral-600">Tidak ada konten.</div>;
-
   let rows = [];
   if (Array.isArray(content?.rows)) rows = content.rows;
   else if (Array.isArray(content?.sections)) {
@@ -117,7 +112,6 @@ function ContentTable({ content }) {
   } else if (typeof content === "object") {
     rows = Object.entries(content).map(([label, value]) => ({ label, value }));
   }
-
   if (!rows.length) return <div className="text-sm text-neutral-600">Tidak ada konten.</div>;
   return <Table rows={rows} />;
 }
