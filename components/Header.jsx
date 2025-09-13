@@ -60,7 +60,8 @@ export default function Header() {
             <>
               <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
-           <button className="focus:outline-none">
+                className="focus:outline-none"
+              >
               <Image
                 src="/avatar-default.png"
                 alt="Akun"
