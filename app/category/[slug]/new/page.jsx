@@ -8,8 +8,8 @@ export default function CreateThreadPage() {
   const params = useParams();
   const [title, setTitle] = useState("");
   const [summary, setSummary] = useState("");
-  const [content, setContent] = useState(""); // ubah jadi string, bukan object
-  const [image, setImage] = useState("");     // sementara URL gambar
+  const [content, setContent] = useState("");
+  const [image, setImage] = useState("");
   const [telegram, setTelegram] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -39,10 +39,12 @@ export default function CreateThreadPage() {
           category_slug: params.slug,
           title,
           summary,
-          content_type: "text", // bukan table lagi
+          content_type: "text",
           content,
-          image,
-          telegram,
+          meta: {
+            telegram,
+            ...(image && { image }),
+          },
         }),
       });
       if (!res.ok) {
