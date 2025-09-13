@@ -1,12 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
 
-/**
- * Sidebar dengan 2 section:
- * 1. Menu utama (Home, Threads, Tentang Kami, Aturan)
- * 2. Daftar kategori thread (hanya muncul saat klik "Threads")
- */
 const threadCategories = [
   "Mencari Pekerjaan",
   "Cryptocurrency",
@@ -43,128 +37,86 @@ function slugify(name) {
     .replace(/^-|-$/g, "");
 }
 
-export default function Sidebar() {
-  const [open, setOpen] = useState(false);
-  const [section, setSection] = useState("main"); // "main" | "threads"
-
-  // Untuk mobile: reset ke section main saat tutup sidebar
-  function closeSidebar() {
-    setOpen(false);
-    setTimeout(() => setSection("main"), 200);
-  }
-
+export default function Sidebar({ open, onClose }) {
   return (
     <>
-      {/* Hamburger for mobile */}
-      <button
-        className="sm:hidden fixed top-4 left-4 z-50 bg-white border border-neutral-200 rounded-lg p-2 shadow-md"
-        onClick={() => setOpen(true)}
-        aria-label="Buka menu"
-        type="button"
-      >
-        <span className="block w-6 h-0.5 bg-black mb-1 rounded"></span>
-        <span className="block w-6 h-0.5 bg-black mb-1 rounded"></span>
-        <span className="block w-6 h-0.5 bg-black rounded"></span>
-      </button>
-
-      {/* Sidebar */}
       <aside
-        className={`bg-white border-r border-neutral-200 fixed sm:static inset-y-0 left-0 z-40 w-64 sm:w-56 flex flex-col h-full transition-transform duration-200 ${
+        className={`bg-white border-r border-neutral-200 fixed inset-y-0 left-0 z-40 w-64 flex flex-col h-full transition-transform duration-200 sm:hidden ${
           open ? "translate-x-0" : "-translate-x-full"
-        } sm:translate-x-0`}
+        }`}
         aria-label="Sidebar"
       >
-        {/* Section: Menu utama */}
-        {section === "main" && (
-          <>
-            <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-100 sm:justify-center">
-              <span className="font-bold text-lg tracking-tight">Menu</span>
-              <button
-                className="sm:hidden p-1 ml-2"
-                onClick={closeSidebar}
-                aria-label="Tutup menu"
-                type="button"
-              >
-                <svg width="22" height="22" fill="none"><path d="M6 6l10 10M16 6L6 16" stroke="black" strokeWidth="2"/></svg>
-              </button>
-            </div>
-            <nav className="flex-1 flex flex-col gap-1 mt-2 px-2 py-2">
-              <Link
-                href="/"
-                className="block py-2 px-4 rounded-lg font-medium text-neutral-700 hover:bg-neutral-100 transition-colors"
-                onClick={closeSidebar}
-              >
-                Home
-              </Link>
-              <button
-                className="block text-left py-2 px-4 rounded-lg font-medium text-neutral-700 hover:bg-neutral-100 transition-colors"
-                onClick={() => setSection("threads")}
-              >
-                Threads
-              </button>
-              <Link
-                href="/about-content"
-                className="block py-2 px-4 rounded-lg font-medium text-neutral-700 hover:bg-neutral-100 transition-colors"
-                onClick={closeSidebar}
-              >
-                Tentang Kami
-              </Link>
-              <Link
-                href="/rules-content"
-                className="block py-2 px-4 rounded-lg font-medium text-neutral-700 hover:bg-neutral-100 transition-colors"
-                onClick={closeSidebar}
-              >
-                Aturan
-              </Link>
-            </nav>
-          </>
-        )}
+        <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-100">
+          <span className="font-bold text-lg">Menu</span>
+          <button
+            className="p-1"
+            onClick={onClose}
+            aria-label="Tutup menu"
+            type="button"
+          >
+            <svg width="22" height="22" fill="none">
+              <path
+                d="M6 6l10 10M16 6L6 16"
+                stroke="black"
+                strokeWidth="2"
+              />
+            </svg>
+          </button>
+        </div>
 
-        {/* Section: Daftar kategori threads */}
-        {section === "threads" && (
-          <>
-            <div className="flex items-center gap-2 px-5 py-4 border-b border-neutral-100">
-              <button
-                className="p-1 mr-1 -ml-2"
-                onClick={() => setSection("main")}
-                aria-label="Kembali ke menu"
-                type="button"
+        <nav className="flex-1 flex flex-col gap-1 mt-2 px-2 py-2 overflow-y-auto">
+          <Link
+            href="/"
+            className="block py-2 px-4 rounded-lg font-medium text-neutral-700 hover:bg-neutral-100"
+            onClick={onClose}
+          >
+            Home
+          </Link>
+          <Link
+            href="/threads"
+            className="block py-2 px-4 rounded-lg font-medium text-neutral-700 hover:bg-neutral-100"
+            onClick={onClose}
+          >
+            Threads
+          </Link>
+          <Link
+            href="/about-content"
+            className="block py-2 px-4 rounded-lg font-medium text-neutral-700 hover:bg-neutral-100"
+            onClick={onClose}
+          >
+            Tentang Kami
+          </Link>
+          <Link
+            href="/rules-content"
+            className="block py-2 px-4 rounded-lg font-medium text-neutral-700 hover:bg-neutral-100"
+            onClick={onClose}
+          >
+            Aturan
+          </Link>
+
+          <div className="mt-4 border-t pt-2">
+            <span className="block px-4 py-2 font-semibold text-sm text-neutral-500">
+              Kategori Threads
+            </span>
+            {threadCategories.map((cat) => (
+              <Link
+                key={cat}
+                href={`/category/${slugify(cat)}`}
+                className="block py-2 px-4 rounded-lg font-medium text-neutral-700 hover:bg-blue-50 hover:text-blue-700"
+                onClick={onClose}
               >
-                <svg width="22" height="22" fill="none"><path d="M15 5l-7 6 7 6" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-              </button>
-              <span className="font-bold text-lg tracking-tight">Kategori Threads</span>
-              <button
-                className="sm:hidden p-1 ml-auto"
-                onClick={closeSidebar}
-                aria-label="Tutup menu"
-                type="button"
-              >
-                <svg width="22" height="22" fill="none"><path d="M6 6l10 10M16 6L6 16" stroke="black" strokeWidth="2"/></svg>
-              </button>
-            </div>
-            <nav className="flex-1 flex flex-col gap-1 mt-2 px-2 py-2 overflow-y-auto">
-              {threadCategories.map(cat => (
-                <Link
-                  key={cat}
-                  href={`/category/${slugify(cat)}`}
-                  className="block py-2 px-4 rounded-lg font-medium text-neutral-700 hover:bg-blue-50 hover:text-blue-700 transition-colors"
-                  onClick={closeSidebar}
-                >
-                  {cat}
-                </Link>
-              ))}
-            </nav>
-          </>
-        )}
-        <div className="hidden sm:block flex-shrink-0 h-4" />
+                {cat}
+              </Link>
+            ))}
+          </div>
+        </nav>
       </aside>
 
-      {/* Overlay for mobile */}
+      {/* Overlay untuk mobile */}
       {open && (
         <div
           className="fixed inset-0 z-30 bg-black/30 sm:hidden"
-          aria-label="Sidebar overlay"
-          onClick={closeSidebar}
+          onClick={onClose}
         />
       )}
     </>

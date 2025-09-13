@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import ProfileSidebar from "./ProfileSidebar";
+import Sidebar from "./Sidebar";
 
 export default function Header() {
   const [isAuthed, setIsAuthed] = useState(false);
@@ -17,10 +17,25 @@ export default function Header() {
 
   return (
     <header className="w-full border-b bg-white sticky top-0 z-40">
-      <div className="max-w-5xl mx-auto flex items-center justify-between px-4 py-3">
-        <Link href="/" className="flex items-center gap-2">
+      <div className="max-w-5xl mx-auto flex items-center justify-between px-4 py-3 relative">
+        {/* Tombol hamburger (mobile only) */}
+        <button
+          className="sm:hidden p-2 absolute left-4"
+          onClick={() => setSidebarOpen(true)}
+          aria-label="Buka menu"
+        >
+          <span className="block w-6 h-0.5 bg-black mb-1 rounded"></span>
+          <span className="block w-6 h-0.5 bg-black mb-1 rounded"></span>
+          <span className="block w-6 h-0.5 bg-black rounded"></span>
+        </button>
+
+        {/* Logo di tengah */}
+        <Link
+          href="/"
+          className="flex items-center gap-2 mx-auto"
+        >
           <Image
-            src="images/vectorised-1757601408528.svg"
+            src="/images/vectorised-1757601408528.svg"
             alt="Logo"
             width={36}
             height={36}
@@ -31,32 +46,26 @@ export default function Header() {
           </span>
         </Link>
 
-        <nav className="hidden sm:flex gap-8 text-base font-medium text-neutral-700">
+        {/* Navigasi desktop */}
+        <nav className="hidden sm:flex gap-8 text-base font-medium text-neutral-700 ml-auto">
           <Link href="/" className="hover:text-black">Home</Link>
           <Link href="/threads" className="hover:text-black">Threads</Link>
           <Link href="/about-content" className="hover:text-black">Tentang Kami</Link>
           <Link href="/rules-content" className="hover:text-black">Aturan</Link>
         </nav>
 
-        <div className="relative">
+        {/* Profile / Login */}
+        <div className="absolute right-4">
           {isAuthed ? (
-            <>
-              <button
-                onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="focus:outline-none"
-              >
-                <Image
-                  src="/avatar-default.png"
-                  alt="Akun"
-                  width={32}
-                  height={32}
-                  className="rounded-full"
-                />
-              </button>
-              {sidebarOpen && (
-                <ProfileSidebar onClose={() => setSidebarOpen(false)} />
-              )}
-            </>
+            <button className="focus:outline-none">
+              <Image
+                src="/avatar-default.png"
+                alt="Akun"
+                width={32}
+                height={32}
+                className="rounded-full"
+              />
+            </button>
           ) : (
             <Link
               href="/login"
@@ -67,6 +76,9 @@ export default function Header() {
           )}
         </div>
       </div>
+
+      {/* Sidebar */}
+      <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
     </header>
   );
 }
