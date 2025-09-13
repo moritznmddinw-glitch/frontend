@@ -62,14 +62,14 @@ export default function Header() {
                 onClick={() => setSidebarOpen(!sidebarOpen)}
                 className="focus:outline-none"
               >
-              <Image
-                src="/avatar-default.png"
-                alt="Akun"
-                width={32}
-                height={32}
-                className="rounded-full"
-              />
-            </button>
+                <Image
+                  src="/avatar-default.png"
+                  alt="Akun"
+                  width={32}
+                  height={32}
+                  className="rounded-full"
+                />
+              </button>
               {sidebarOpen && (
                 <ProfileSidebar onClose={() => setSidebarOpen(false)} />
               )}
