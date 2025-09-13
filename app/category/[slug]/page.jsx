@@ -13,7 +13,7 @@ export default function CategoryThreadsPage() {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`${API}/api/categories/${params.slug}/threads`)
+    fetch(`${API}/api/threads/category/${params.slug}`)
       .then(r => r.ok ? r.json() : Promise.reject())
       .then(data => setThreads(data.threads || []))
       .finally(() => setLoading(false));
