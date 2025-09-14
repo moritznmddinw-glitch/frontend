@@ -1,83 +1,93 @@
-
-// Next.js: Pastikan halaman ini statis
 export const dynamic = "force-static";
+
 export const metadata = { title: "Aturan" };
 
 export default function RulesContentPage() {
   return (
-    <section className="prose max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h1>Aturan Komunitas</h1>
-      <p className="lead">
-        Selamat datang di website kami. Kami hadir untuk memecahkan masalah terkait pengetahuan, pengalaman, dan mengurangi kesenjangan sosial. Di sini, ilmu dan pengalaman sangat dijunjung tinggi. Kami menghargai setiap usaha, sekecil apa pun, yang Anda kerjakan. Kami percaya bahwa setiap pengguna dapat mengimplementasikan ide mereka menjadi nyata melalui berbagai upaya dan tindakan.
+    <section className="prose max-w-3xl">
+      <p>
+        <strong>Aturan Komunitas.</strong>
       </p>
 
-      <h2>I. Pendaftaran & Akun</h2>
+      <p>
+        <strong>Prinsip Utama:</strong><br />
+        Platform ini didirikan untuk memfasilitasi pertukaran pengetahuan, pengalaman, serta mengatasi kesenjangan sosial. Kami menjunjung tinggi ilmu dan pengalaman, memberikan penghargaan tertinggi untuk setiap upaya, sekecil apa pun, yang telah Anda lakukan. Kami menyingkirkan sebutan "teori" karena di sini setiap pengguna didorong untuk merealisasikan ide mereka dalam berbagai bentuk tindakan, teknik, dan inovasi.
+      </p>
+
+      <p>
+        <strong>I. Pendaftaran & Akun</strong>
+      </p>
       <ol>
-        <li>Gunakan nama pengguna yang pantas. Dilarang menggunakan kata-kata yang kasar atau melecehkan.</li>
-        <li>Jaga keamanan akun Anda. Jika akun Anda diretas, segera laporkan agar tidak disalahgunakan.</li>
-        <li>Kami sengaja hanya menyediakan opsi pendaftaran/masuk melalui akun GitHub untuk mencegah penyalahgunaan.</li>
+        <li>Gunakan nama pengguna yang layak dan pantas. Hindari penggunaan kata-kata yang kasar atau melecehkan.</li>
+        <li>Jaga keamanan akun Anda. Jika terjadi peretasan, segera laporkan agar akun tidak disalahgunakan.</li>
+        <li>Kami sengaja hanya menyediakan opsi pendaftaran/masuk melalui akun GitHub untuk mencegah penyalahgunaan akun secara masif.</li>
       </ol>
 
-      <h2>II. Etika & Perilaku</h2>
+      <p>
+        <strong>II. Etika & Perilaku</strong>
+      </p>
       <ol>
-        <li>Dilarang melakukan serangan pribadi, seperti menghina, merendahkan, atau mengancam pengguna lain.</li>
-        <li>Kritik diperbolehkan, namun harus fokus pada argumen atau ide, bukan pada orangnya.</li>
-        <li>Dilarang keras melakukan diskriminasi berdasarkan ras, agama, gender, orientasi seksual, atau latar belakang sosial.</li>
-        <li>Dilarang menyebarkan konten yang merusak moral kemanusiaan, termasuk:
-          <ol type="a">
+        <li>Dilarang melakukan serangan pribadi, termasuk menghina, merendahkan, atau mengancam pengguna lain.</li>
+        <li>Kritik diperbolehkan, namun harus berfokus pada argumen atau gagasan, bukan pada individu.</li>
+        <li>Dilarang melakukan diskriminasi berdasarkan ras, agama, gender, orientasi, atau latar belakang sosial.</li>
+        <li>Dilarang menyebarkan konten yang merusak kemanusiaan, termasuk:
+          <ol>
             <li>Kekerasan brutal, pelecehan seksual, eksploitasi anak, terorisme, perdagangan manusia, atau promosi bunuh diri.</li>
           </ol>
         </li>
         <li>
-          <strong>Diskusi tentang topik sensitif diperbolehkan</strong>, seperti hacking, exploit, malware, social engineering, DDoS, SQL Injection, XSS, bypass, dan bruteforce, dengan tujuan untuk **pendidikan, penelitian, atau simulasi**. Namun, ada batasan yang harus dipatuhi:
-          <ol type="a">
-            <li>Dilarang memublikasikan data pribadi (doxing) atau akses ilegal yang masih aktif.</li>
-            <li>Dilarang mencuri email pribadi (native/pribadi) orang lain.</li>
-            <li>Pengguna bertanggung jawab penuh secara pribadi atau kelompok atas konsekuensi hukum tanpa melibatkan pihak website.</li>
+          <strong>Diskusi tentang topik sensitif</strong>, seperti peretasan, eksploitasi, perangkat perusak (malware), rekayasa sosial (social engineering), serangan DDoS, Injeksi SQL, XSS, pembobolan, dan serangan *bruteforce* diperbolehkan, **sebatas untuk tujuan edukasi, penelitian, atau simulasi**. Dengan ketentuan:
+          <ol>
+            <li>Tidak diperbolehkan memublikasikan data pribadi (*doxing*), akses ilegal yang masih aktif, atau metode yang dapat merugikan individu secara langsung.</li>
+            <li>Tidak diperbolehkan mencuri data pribadi (misalnya, alamat surel) milik orang lain.</li>
+            <li>Setiap pengguna bertanggung jawab secara pribadi atau kelompok atas segala konsekuensi hukum tanpa melibatkan pihak platform.</li>
           </ol>
         </li>
-        <li>Humor, meme, atau percakapan ringan diperbolehkan selama tidak melukai martabat orang lain.</li>
+        <li>Humor, meme, atau percakapan ringan tidak dilarang selama tidak merendahkan atau melukai martabat orang lain.</li>
       </ol>
 
-      <h2>III. Konten & Diskusi</h2>
+      <p>
+        <strong>III. Konten & Diskusi</strong>
+      </p>
       <ol>
-        <li>Pastikan Anda memposting di kategori yang sesuai.</li>
-        <li>Hindari melakukan "flood" (memposting berulang-ulang) dan "spam".</li>
+        <li>Unggah konten pada kategori yang sesuai.</li>
+        <li>Hindari pengiriman konten berulang (*flood*) dan spam.</li>
         <li>Judul thread harus jelas dan deskriptif, bukan hanya "Tolong!!!" atau "Help".</li>
-        <li>Berbagi data atau alat uji diizinkan selama tidak digunakan untuk merugikan individu atau pihak lain (misalnya, memublikasikan data sensitif yang masih aktif).</li>
+        <li>Berbagi data atau alat uji diizinkan selama tidak digunakan untuk merugikan pihak nyata (misalnya, menyebarluaskan data sensitif yang masih aktif).</li>
       </ol>
 
-      <h2>IV. Transaksi & Komunitas</h2>
+      <p>
+        <strong>IV. Transaksi & Komunitas</strong>
+      </p>
       <ol>
-        <li>Jika melakukan transaksi, disarankan menggunakan sistem penahanan dana (escrow) hingga kesepakatan tercapai.</li>
-        <li>Dilarang menipu, memeras, atau menyalahgunakan kepercayaan orang lain.</li>
-        <li>Di sini, **pengetahuan lebih penting daripada keuntungan semata**.</li>
-        <li>
-          Pengguna yang memiliki portofolio atau reputasi baik dari platform lain dapat menerima penghargaan (badge) dari kami. Kami tidak membatasi penghargaan dari berbagai platform, namun kami memiliki pedoman khusus untuk menyeleksi dan memverifikasi kelayakan pengguna sebelum memberikan penghargaan.
-        </li>
+        <li>Apabila terjadi transaksi, disarankan untuk menggunakan sistem penjaminan dana (*escrow*) hingga batas waktu kesepakatan tercapai.</li>
+        <li>Dilarang menipu, memeras, atau menyalahgunakan kepercayaan pengguna lain.</li>
+        <li>Di sini, **pengetahuan jauh lebih berharga daripada keuntungan semata**.</li>
+        <li>Pengguna yang memiliki portofolio atau reputasi dari platform lain, seperti pengguna A yang telah menjual ribuan akun, atau pengguna B yang memiliki reputasi di platform lain, dapat menerima penghargaan berupa lencana. Kami tidak membatasi pengguna untuk memperoleh penghargaan dari berbagai platform. Kami memiliki pedoman selektif untuk mengidentifikasi kelayakan pengguna sebelum memutuskan untuk memberikan penghargaan.</li>
       </ol>
 
-      <h2>V. Penegakan Aturan</h2>
+      <p>
+        <strong>V. Penegakan Aturan</strong>
+      </p>
       <ol>
-        <li>Moderator dan arbitrator akan bertindak sebagai mediator untuk menyelesaikan masalah, bukan untuk membela salah satu pihak.</li>
+        <li>Moderator dan arbitrator akan bertindak sebagai mediator untuk menyelesaikan konflik, bukan untuk membela salah satu pihak atau mengintervensi satu sama lain.</li>
         <li>Pelanggaran ringan akan dikenai teguran.</li>
-        <li>Pelanggaran serius (seperti merugikan orang lain secara langsung, eksploitasi manusia, atau penipuan) akan berakibat pada **banned** permanen.</li>
+        <li>Pelanggaran serius, seperti merugikan individu secara langsung, eksploitasi manusia, atau penipuan, akan berujung pada sanksi larangan permanen (*ban*).</li>
         <li>Diskusi mengenai keputusan moderator atau arbitrator diperbolehkan.</li>
       </ol>
 
-      <h2>VI. Nilai Dasar Komunitas</h2>
+      <p>
+        <strong>VI. Nilai Dasar Komunitas</strong>
+      </p>
       <ul>
         <li>Kemanusiaan di atas segalanya.</li>
-        <li>Ilmu digunakan untuk berkembang, bukan untuk menindas.</li>
-        <li>Kebebasan berbicara harus disertai dengan tanggung jawab.</li>
+        <li>Ilmu untuk berkembang, bukan untuk menindas.</li>
+        <li>Kebebasan berpendapat harus dibarengi dengan tanggung jawab.</li>
         <li>Bertindak dengan rasionalitas dan kesadaran penuh.</li>
-        <li>Saling menghargai, meskipun memiliki pandangan yang berbeda.</li>
-        <li>Miliki simpati, empati, dan kepedulian terhadap orang lain.</li>
+        <li>Saling menghargai, meskipun berbeda pandangan.</li>
+        <li>Memiliki simpati, empati, dan kepedulian terhadap sesama.</li>
+        <li>Di sini, kebebasan dan etika berpadu menjadi satu. Ketika Anda melanggar aturan, Anda akan menerima konsekuensinya, begitu pun sebaliknya. Anda tidak perlu membongkar seluruh rumah hanya untuk mengeluarkan mobil; ada banyak cara yang lebih baik, misalnya merusak garasi. Salam.</li>
       </ul>
-
-      <p className="note">
-        Di komunitas ini, kebebasan dan etika berbaur menjadi satu. Ketika Anda melanggar aturan, Anda akan menerima konsekuensinya, dan sebaliknya, ketika Anda patuh, Anda akan mendapatkan manfaatnya. Ingat, tidak perlu merusak seluruh rumah hanya untuk mengeluarkan mobil; ada banyak cara yang lebih baik, seperti merusak garasi. Salam.
-      </p>
     </section>
   );
 }
