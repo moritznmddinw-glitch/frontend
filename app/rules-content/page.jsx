@@ -8,14 +8,13 @@ export default function RulesContentPage() {
       <p><strong>Aturan.</strong></p>
 
       <p><strong>Prinsip Utama:</strong><br />
-        Website ini dibangun untuk berbagi pengetahuan, pengalaman, dan diskusi.<br />
-        Kebebasan berbicara dijunjung tinggi, tetapi hormat terhadap kemanusiaan dan keselamatan orang lain adalah prioritas utama.
+        Website ini dibangun untuk memecahkan masalah terkait pengetahuan, pengalaman, dan menghilangkan ketimpangan sosial.<br />
+        Ilmu dan pengalaman di junjung tinggi, hormat tertinggi untuk apapun dan sekecil apapun usaha yang telah anda kerjakan, kami membuang kata teori, disini semua pengguna dapat mengimplementasikan apa yang ada di pikiran mereka untuk di realisasikan dengan berbagai bentuk upaya, tindakan, teknik dll.
       </p>
 
       <p><strong>I. Pendaftaran & Akun</strong></p>
       <ol>
         <li>Gunakan username yang pantas (hindari kata kasar/pelecehan).</li>
-        <li>Tidak dianjurkan membuat banyak akun, tapi jika punya alasan jelas (privasi, eksperimen, dsb.) silakan, asalkan tidak digunakan untuk merugikan orang lain.</li>
         <li>Jaga keamanan akun Anda, tapi jika diretas, segera laporkan agar tidak disalahgunakan.</li>
         <li>Kami sengaja hanya menyediakan opsi daftar/masuk hanya melalui akun github, untuk mencegah penyalahgunaan akun.</li>
       </ol>
@@ -45,24 +44,23 @@ export default function RulesContentPage() {
         <li>Post di kategori yang sesuai.</li>
         <li>Hindari flood & spam.</li>
         <li>Judul thread harus jelas, bukan cuma "Help" atau "Tolong!!!".</li>
-        <li>Artikel, tutorial, atau tools lebih dihargai jika dijelaskan konteks dan risikonya.</li>
         <li>Sharing data/alat uji diperbolehkan selama tidak digunakan untuk merugikan orang nyata (misal: leak data sensitif masih aktif).</li>
       </ol>
 
       <p><strong>IV. Transaksi & Komunitas</strong></p>
       <ol>
-        <li>Jika ada transaksi, gunakan penjamin (guarantor) atau sistem escrow.</li>
+        <li>Jika terjadi transaksi, gunakan sistem tahan dana hingga sampai batas waktu kesepakatan.</li>
         <li>Dilarang menipu, memeras, atau memanfaatkan kepercayaan orang lain.</li>
         <li>Pengetahuan lebih penting daripada keuntungan semata.</li>
-        <li>Pengguna yang berkontribusi positif (tulisan, tools, membantu orang lain) bisa mendapat penghargaan komunitas.</li>
+        <li>Pengguna yang memiliki portofolio atau reputasi dari platform lain atau sebagai contoh pengguna A telah menjual ribuan akun di platform A dan atau pengguna B memiliki reputasi di platform B, maka pengguna tersebut dapat menerima penghargaan berupa badge, dalam hal ini kami tidak menetapkan batasan kepada pengguna untuk memperoleh penghargaan dari berbagai platform. Kami memiliki pedoman spesifik untuk mengidentifikasi dengan selektif sebelum pengguna di putuskan untuk mendapat penghargaan.</li>
       </ol>
 
       <p><strong>V. Penegakan Aturan</strong></p>
       <ol>
-        <li>Moderator akan bertindak lebih sebagai mediator daripada polisi.</li>
+        <li>Moderator dan arbitrator akan bertindak lebih ke arah penyelesaian bukan untuk membela salah satu pihak dan atau mengintervensi satu sama lain.</li>
         <li>Pelanggaran ringan → teguran.</li>
         <li>Pelanggaran serius (merugikan orang lain secara langsung, eksploitasi manusia, penipuan) → ban.</li>
-        <li>Diskusi tentang keputusan moderator diperbolehkan selama tetap sopan.</li>
+        <li>Diskusi tentang keputusan moderator dan atau arbitrator diperbolehkan.</li>
       </ol>
 
       <p><strong>VI. Nilai Dasar Forum</strong></p>
@@ -73,6 +71,7 @@ export default function RulesContentPage() {
         <li>Bertindak dengan rasionalitas dan kesadaran penuh.</li>
         <li>Saling menghargai, meski berbeda pandangan.</li>
         <li>Memiliki simpati, empati, dan peduli kepada orang lain.</li>
+        <li>Disini kebebasan dan etika berbaur menjadi satu, ketika anda melanggar aturan, anda akan mendapatkan hukuman, begitu dengan sebaliknya, anda tidak perlu membongkar rumah hanya untuk mengeluarkan mobil, banyak cara yang lebih baik tanpa membongkar rumah, sebagai contoh merusak garasi. Salam.</li>
       </ul>
     </section>
   );
