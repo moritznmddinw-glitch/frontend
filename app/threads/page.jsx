@@ -1,0 +1,212 @@
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+
+export default function MyThreadsPage() {
+  const API = `${process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080"}/api`;
+  const authed = useMemo(() => {
+    try {
+      return !!localStorage.getItem("token");
+    } catch {
+      return false;
+    }
+  }, []);
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [ok, setOk] = useState("");
+  const [threads, setThreads] = useState([]);
+
+  // editor state
+  const [editingId, setEditingId] = useState(null);
+  const [form, setForm] = useState({ title: "", summary: "", content_type: "text", content: "", image: "", telegram: "" });
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    if (!authed) {
+      setLoading(false);
+      setError("Anda harus login untuk melihat threads Anda.");
+      return;
+    }
+    let cancelled = false;
+    setLoading(true);
+    setError("");
+    const t = localStorage.getItem("token");
+    fetch(`${API}/threads/me`, { headers: { Authorization: `Bearer ${t}` } })
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error("Gagal memuat threads"))))
+      .then((data) => {
+        if (cancelled) return;
+        const list = Array.isArray(data) ? data : Array.isArray(data.items) ? data.items : [];
+        // sort desc by created_at if present
+        list.sort((a, b) => (b.created_at || 0) - (a.created_at || 0));
+        setThreads(list);
+      })
+      .catch((e) => !cancelled && setError(e.message || String(e)))
+      .finally(() => !cancelled && setLoading(false));
+    return () => {
+      cancelled = true;
+    };
+  }, [API, authed]);
+
+  function startEdit(th) {
+    setOk("");
+    setError("");
+    setEditingId(th.id);
+    const meta = th.meta || {};
+    setForm({
+      title: th.title || "",
+      summary: th.summary || "",
+      content_type: th.content_type || "text",
+      content: typeof th.content === "string" ? th.content : JSON.stringify(th.content || "", null, 2),
+      image: meta.image || "",
+      telegram: (meta.telegram || "").replace(/^@/, ""),
+    });
+  }
+
+  function cancelEdit() {
+    setEditingId(null);
+    setForm({ title: "", summary: "", content_type: "text", content: "", image: "", telegram: "" });
+  }
+
+  async function saveEdit(id) {
+    setSaving(true);
+    setOk("");
+    setError("");
+    try {
+      const t = localStorage.getItem("token");
+      const body = {
+        title: form.title,
+        summary: form.summary,
+        content_type: form.content_type || "text",
+        content: form.content_type === "text" ? form.content : safeParse(form.content),
+        meta: {
+          image: form.image || undefined,
+          telegram: form.telegram ? `@${form.telegram.replace(/^@/, "")}` : undefined,
+        },
+      };
+      const r = await fetch(`${API}/threads/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${t}` },
+        body: JSON.stringify(body),
+      });
+      const txt = await r.text();
+      if (!r.ok) throw new Error(txt || "Gagal menyimpan thread");
+      let updated;
+      try { updated = JSON.parse(txt); } catch { updated = body; }
+      // update list locally
+      setThreads((prev) => prev.map((it) => (it.id === id ? { ...it, ...updated, meta: { ...(it.meta || {}), ...(updated.meta || {}) } } : it)));
+      setOk("Thread berhasil diperbarui.");
+      setEditingId(null);
+    } catch (e) {
+      setError(String(e.message || e));
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  if (!authed) return <div className="text-sm text-red-600">{error || "Anda harus login untuk melihat threads Anda."}</div>;
+
+  return (
+    <div className="max-w-2xl mx-auto px-3 py-6 space-y-4">
+      <h1 className="text-2xl font-semibold">Threads Saya</h1>
+
+      {loading ? (
+        <div className="text-sm">Loading...</div>
+      ) : error ? (
+        <div className="text-sm text-red-600">{error}</div>
+      ) : (
+        <div className="space-y-3">
+          {threads.length === 0 ? (
+            <div className="text-sm text-neutral-600">Anda belum memiliki thread.</div>
+          ) : (
+            threads.map((th) => (
+              <div key={th.id} className="border rounded-lg bg-white p-4">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                  <div>
+                    <div className="font-medium text-lg">{th.title || "(Tanpa Judul)"}</div>
+                    <div className="text-xs text-neutral-500 flex flex-wrap items-center gap-2">
+                      <span>{formatDate(th.created_at)}</span>
+                      {th.category?.slug && (
+                        <>
+                          <span>•</span>
+                          <Link href={`/category/${encodeURIComponent(th.category.slug)}`} className="underline hover:text-blue-700">
+                            {th.category?.name || th.category?.slug}
+                          </Link>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <Link href={`/thread/${encodeURIComponent(th.id)}`} className="px-3 py-1.5 rounded bg-neutral-100 hover:bg-neutral-200 text-sm">Lihat</Link>
+                    <button onClick={() => startEdit(th)} className="px-3 py-1.5 rounded bg-black text-white text-sm">Edit</button>
+                  </div>
+                </div>
+
+                {editingId === th.id && (
+                  <div className="mt-4 border-t pt-4 space-y-3">
+                    <div>
+                      <label className="text-sm">Judul</label>
+                      <input className="w-full rounded border px-3 py-2" value={form.title} onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))} />
+                    </div>
+                    <div>
+                      <label className="text-sm">Ringkasan</label>
+                      <textarea rows={3} className="w-full rounded border px-3 py-2" value={form.summary} onChange={(e) => setForm((f) => ({ ...f, summary: e.target.value }))} />
+                    </div>
+                    <div>
+                      <label className="text-sm">Tipe Konten</label>
+                      <select className="w-full rounded border px-3 py-2" value={form.content_type} onChange={(e) => setForm((f) => ({ ...f, content_type: e.target.value }))}>
+                        <option value="text">Text</option>
+                        <option value="json">JSON</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="text-sm">Konten {form.content_type === "json" && <span className="text-xs text-neutral-500">(JSON)</span>}</label>
+                      <textarea rows={8} className="w-full rounded border px-3 py-2 font-mono text-sm" value={form.content} onChange={(e) => setForm((f) => ({ ...f, content: e.target.value }))} />
+                      {form.content_type === "json" && (
+                        <div className="text-xs text-neutral-500 mt-1">Masukkan JSON valid. Gunakan tombol "Text" bila tidak membutuhkan struktur.</div>
+                      )}
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div>
+                        <label className="text-sm">Gambar (URL)</label>
+                        <input className="w-full rounded border px-3 py-2" placeholder="https://..." value={form.image} onChange={(e) => setForm((f) => ({ ...f, image: e.target.value }))} />
+                      </div>
+                      <div>
+                        <label className="text-sm">Telegram (tanpa @)</label>
+                        <input className="w-full rounded border px-3 py-2" placeholder="username" value={form.telegram} onChange={(e) => setForm((f) => ({ ...f, telegram: e.target.value }))} />
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 pt-1">
+                      <button onClick={() => saveEdit(th.id)} disabled={saving} className="px-4 py-2 rounded bg-black text-white disabled:opacity-50">{saving ? "Menyimpan..." : "Simpan"}</button>
+                      <button onClick={cancelEdit} className="px-3 py-2 rounded bg-neutral-100">Batal</button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))
+          )}
+        </div>
+      )}
+
+      {ok && <div className="text-sm text-green-700">{ok}</div>}
+    </div>
+  );
+}
+
+function formatDate(ts) {
+  if (!ts) return "";
+  try {
+    return new Date(ts * 1000).toLocaleString();
+  } catch {
+    return "";
+  }
+}
+
+function safeParse(v) {
+  try {
+    return JSON.parse(v);
+  } catch {
+    return v;
+  }
+}

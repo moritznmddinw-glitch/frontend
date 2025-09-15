@@ -14,6 +14,10 @@ export default function AccountPage() {
   const [username, setUsername] = useState("");
   const [newUsername, setNewUsername] = useState("");
   const [chgLoading, setChgLoading] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState("");
+  const [avatarFile, setAvatarFile] = useState(null);
+  const [avatarPreview, setAvatarPreview] = useState("");
+  const [avatarUploading, setAvatarUploading] = useState(false);
 
   useEffect(() => {
     if (!authed) { setLoading(false); return; }
@@ -26,6 +30,7 @@ export default function AccountPage() {
         if (cancelled) return;
         setMe(data);
         setUsername(data.username || "");
+        setAvatarUrl(data.avatar_url || "");
         setForm({
           full_name: data.full_name || "",
           bio: data.bio || "",
@@ -50,6 +55,46 @@ export default function AccountPage() {
   }
   function addSocial() { setSocials(prev => [...prev, { label: "", url: "" }]); }
   function removeSocial(i) { setSocials(prev => prev.filter((_, idx) => idx !== i)); }
+
+  function onAvatarFileChange(e) {
+    setOk(""); setError("");
+    const file = e.target.files && e.target.files[0];
+    setAvatarFile(file || null);
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setAvatarPreview(url);
+    } else {
+      setAvatarPreview("");
+    }
+  }
+
+  async function uploadAvatar() {
+    setError(""); setOk(""); setAvatarUploading(true);
+    try {
+      if (!avatarFile) throw new Error("Pilih file gambar terlebih dahulu");
+      const t = localStorage.getItem("token");
+      const fd = new FormData();
+      fd.append("file", avatarFile);
+      const r = await fetch(`${API}/account/avatar`, {
+        method: "PUT",
+        headers: { Authorization: `Bearer ${t}` },
+        body: fd,
+      });
+      const txt = await r.text();
+      if (!r.ok) throw new Error(txt || "Gagal mengunggah avatar");
+      let resp = {};
+      try { resp = JSON.parse(txt); } catch {}
+      const url = resp.avatar_url || avatarUrl || "";
+      if (url) setAvatarUrl(url);
+      setOk("Foto profil diperbarui.");
+      setAvatarFile(null);
+      setAvatarPreview("");
+    } catch (e) {
+      setError(String(e.message || e));
+    } finally {
+      setAvatarUploading(false);
+    }
+  }
 
   async function saveAccount(e) {
     e.preventDefault();
@@ -96,6 +141,47 @@ export default function AccountPage() {
         <div className="text-sm">Loading...</div>
       ) : (
         <>
+          <section className="border rounded p-4">
+            <h3 className="font-medium">Foto Profil</h3>
+            <div className="mt-3 flex items-start gap-4">
+              <div className="shrink-0">
+                <img
+                  src={avatarPreview || avatarUrl || "/avatar-default.png"}
+                  alt="Avatar"
+                  className="w-16 h-16 rounded-full border object-cover bg-neutral-50"
+                />
+              </div>
+              <div className="flex-1 space-y-2">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={onAvatarFileChange}
+                  className="block w-full text-sm"
+                />
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={uploadAvatar}
+                    disabled={avatarUploading || !avatarFile}
+                    className="px-4 py-2 rounded bg-black text-white disabled:opacity-50"
+                  >
+                    {avatarUploading ? "Mengunggah..." : "Simpan Foto"}
+                  </button>
+                  {avatarPreview && (
+                    <button
+                      type="button"
+                      onClick={() => { setAvatarFile(null); setAvatarPreview(""); }}
+                      className="px-3 py-2 rounded bg-neutral-100"
+                    >
+                      Batal
+                    </button>
+                  )}
+                </div>
+                <div className="text-xs text-neutral-500">Gunakan gambar rasio 1:1 untuk hasil terbaik. Max ~2MB (sesuaikan backend).</div>
+              </div>
+            </div>
+          </section>
+
           <section className="border rounded p-4">
             <h3 className="font-medium">Profil</h3>
             <form onSubmit={saveAccount} className="mt-3 space-y-3">

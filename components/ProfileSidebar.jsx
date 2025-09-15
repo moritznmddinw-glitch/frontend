@@ -48,7 +48,7 @@ export default function ProfileSidebar({ onClose }) {
       </div>
 
       <div className="text-sm text-neutral-600">
-        Your Money <span className="font-semibold">{user.balance}</span>
+        Your Money IDR <span className="font-semibold">{user.balance}</span>
       </div>
 
       <nav className="flex flex-col gap-2 pt-2">
