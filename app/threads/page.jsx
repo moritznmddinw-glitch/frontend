@@ -53,16 +53,31 @@ export default function MyThreadsPage() {
     setOk("");
     setError("");
     setEditingId(th.id);
-    const meta = th.meta || {};
-    setForm({
-      title: th.title || "",
-      summary: th.summary || "",
-      content_type: th.content_type || "text",
-      content: typeof th.content === "string" ? th.content : JSON.stringify(th.content || "", null, 2),
-      image: meta.image || "",
-      telegram: (meta.telegram || "").replace(/^@/, ""),
-    });
-  }
+  // Prefill dari /api/threads/:id agar sama persis dengan data asli
+  (async () => {
+    try {
+      const t = localStorage.getItem("token");
+      const res = await fetch(`${API}/threads/${th.id}`, {
+        headers: { Authorization: `Bearer ${t}` },
+      });
+      if (!res.ok) throw new Error("Gagal memuat detail thread");
+      const full = await res.json();
+      setForm({
+        title: full.title || "",
+        summary: full.summary || "",
+        content_type: (full.content_type || "text"),
+        content:
+          (full.content_type || "text") === "text"
+            ? (typeof full.content === "string" ? full.content : (full.content ? JSON.stringify(full.content, null, 2) : ""))
+            : (full.content ? JSON.stringify(full.content, null, 2) : ""),
+        image: (full.meta && full.meta.image) || "",
+        telegram: ((full.meta && full.meta.telegram) || "").replace(/^@/, ""),
+      });
+    } catch (e) {
+      setError(String(e.message || e));
+    }
+  })();
+}
 
   function cancelEdit() {
     setEditingId(null);
@@ -95,7 +110,7 @@ export default function MyThreadsPage() {
       let updated;
       try { updated = JSON.parse(txt); } catch { updated = body; }
       // update list locally
-      setThreads((prev) => prev.map((it) => (it.id === id ? { ...it, ...updated, meta: { ...(it.meta || {}), ...(updated.meta || {}) } } : it)));
+      await reloadMyThreads();
       setOk("Thread berhasil diperbarui.");
       setEditingId(null);
     } catch (e) {
