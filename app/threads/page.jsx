@@ -161,38 +161,23 @@ export default function MyThreadsPage() {
                 {editingId === th.id && (
                   <div className="mt-4 border-t pt-4 space-y-3">
                     <div>
-                      <label className="text-sm">Judul</label>
-                      <input className="w-full rounded border px-3 py-2" value={form.title} onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))} />
-                    </div>
-                    <div>
-                      <label className="text-sm">Ringkasan</label>
-                      <textarea rows={3} className="w-full rounded border px-3 py-2" value={form.summary} onChange={(e) => setForm((f) => ({ ...f, summary: e.target.value }))} />
-                    </div>
-                    <div>
-                      <label className="text-sm">Tipe Konten</label>
-                      <select className="w-full rounded border px-3 py-2" value={form.content_type} onChange={(e) => setForm((f) => ({ ...f, content_type: e.target.value }))}>
-                        <option value="text">Text</option>
-                        <option value="json">JSON</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="text-sm">Konten {form.content_type === "json" && <span className="text-xs text-neutral-500">(JSON)</span>}</label>
-                      <textarea rows={8} className="w-full rounded border px-3 py-2 font-mono text-sm" value={form.content} onChange={(e) => setForm((f) => ({ ...f, content: e.target.value }))} />
-                      {form.content_type === "json" && (
-                        <div className="text-xs text-neutral-500 mt-1">Masukkan JSON valid. Gunakan tombol "Text" bila tidak membutuhkan struktur.</div>
-                      )}
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      <div>
-                        <label className="text-sm">Gambar (URL)</label>
-                        <input className="w-full rounded border px-3 py-2" placeholder="https://..." value={form.image} onChange={(e) => setForm((f) => ({ ...f, image: e.target.value }))} />
-                      </div>
-                      <div>
-                        <label className="text-sm">Telegram (tanpa @)</label>
-                        <input className="w-full rounded border px-3 py-2" placeholder="username" value={form.telegram} onChange={(e) => setForm((f) => ({ ...f, telegram: e.target.value }))} />
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2 pt-1">
+                   + <label className="text-sm font-medium">Judul Thread *</label>
+                   + <div className="text-xs text-neutral-500 mb-1">Masukkan judul yang jelas</div>
+
+                   + <label className="text-sm font-medium">Ringkasan (optional)</label>
+                   + <div className="text-xs text-neutral-500 mb-1">Deskripsi singkat / highlight utama thread</div>
+
+                   + <label className="text-sm font-medium">Tipe Konten</label>
+
+                   + <label className="text-sm font-medium">Konten Thread *</label>
+                   + <div className="text-xs text-neutral-500 mb-1">Tuliskan isi thread secara lengkap di sini...</div>
+
+                   + <label className="text-sm font-medium">Gambar (optional)</label>
+                   + <div className="text-xs text-neutral-500 mb-1">URL gambar (opsional)</div>
+
+                   + <label className="text-sm font-medium">Contact Telegram *</label>
+                   + <div className="text-xs text-neutral-500 mb-1">@username</div> 
+                   <div className="flex items-center gap-2 pt-1">
                       <button onClick={() => saveEdit(th.id)} disabled={saving} className="px-4 py-2 rounded bg-black text-white disabled:opacity-50">{saving ? "Menyimpan..." : "Simpan"}</button>
                       <button onClick={cancelEdit} className="px-3 py-2 rounded bg-neutral-100">Batal</button>
                     </div>
@@ -224,4 +209,14 @@ function safeParse(v) {
   } catch {
     return v;
   }
+}
+
+async function reloadMyThreads() {
+  const t = localStorage.getItem("token");
+  const r = await fetch(`${API}/threads/me`, { headers: { Authorization: `Bearer ${t}` } });
+  if (!r.ok) throw new Error("Gagal memuat threads");
+  const data = await r.json();
+  const list = Array.isArray(data) ? data : Array.isArray(data.items) ? data.items : [];
+  list.sort((a, b) => (b.created_at || 0) - (a.created_at || 0));
+  setThreads(list);
 }
