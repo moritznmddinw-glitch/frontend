@@ -6,11 +6,7 @@ import Link from "next/link";
 export default function MyThreadsPage() {
   const API = `${process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080"}/api`;
   const authed = useMemo(() => {
-    try {
-      return !!localStorage.getItem("token");
-    } catch {
-      return false;
-    }
+    try { return !!localStorage.getItem("token"); } catch { return false; }
   }, []);
 
   const [loading, setLoading] = useState(true);
@@ -20,10 +16,10 @@ export default function MyThreadsPage() {
 
   // editor state
   const [editingId, setEditingId] = useState(null);
+  const [originalType, setOriginalType] = useState("text"); // disimpan diam-diam
   const [form, setForm] = useState({
     title: "",
     summary: "",
-    content_type: "text",
     content: "",
     image: "",
     telegram: "",
@@ -32,9 +28,7 @@ export default function MyThreadsPage() {
 
   const reloadMyThreads = useCallback(async () => {
     const t = localStorage.getItem("token");
-    const r = await fetch(`${API}/threads/me`, {
-      headers: { Authorization: `Bearer ${t}` },
-    });
+    const r = await fetch(`${API}/threads/me`, { headers: { Authorization: `Bearer ${t}` } });
     if (!r.ok) throw new Error("Gagal memuat threads");
     const data = await r.json();
     const list = Array.isArray(data) ? data : Array.isArray(data.items) ? data.items : [];
@@ -50,48 +44,37 @@ export default function MyThreadsPage() {
     }
     let cancelled = false;
     (async () => {
-      try {
-        setLoading(true);
-        setError("");
-        await reloadMyThreads();
-      } catch (e) {
-        if (!cancelled) setError(e.message || String(e));
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
+      try { setLoading(true); setError(""); await reloadMyThreads(); }
+      catch (e) { if (!cancelled) setError(e.message || String(e)); }
+      finally { if (!cancelled) setLoading(false); }
     })();
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, [API, authed, reloadMyThreads]);
 
   function startEdit(th) {
-    setOk("");
-    setError("");
-    setEditingId(th.id);
-    // Prefill dari /api/threads/:id agar sama persis dengan data asli
+    setOk(""); setError(""); setEditingId(th.id);
+    // Prefill dari detail agar persis sama dengan data aslinya
     (async () => {
       try {
         const t = localStorage.getItem("token");
-        const res = await fetch(`${API}/threads/${th.id}`, {
-          headers: { Authorization: `Bearer ${t}` },
-        });
+        const res = await fetch(`${API}/threads/${th.id}`, { headers: { Authorization: `Bearer ${t}` } });
         if (!res.ok) throw new Error("Gagal memuat detail thread");
         const full = await res.json();
+
+        // simpan tipe asli (disembunyikan di UI)
+        const ctype = (full.content_type || "text").toLowerCase();
+        setOriginalType(ctype);
+
+        // isi konten sebagai teks untuk diedit (kalau json → stringify cantik)
+        const contentText =
+          ctype === "text"
+            ? (typeof full.content === "string" ? full.content : (full.content ? JSON.stringify(full.content, null, 2) : ""))
+            : (full.content ? JSON.stringify(full.content, null, 2) : "");
+
         setForm({
           title: full.title || "",
           summary: full.summary || "",
-          content_type: full.content_type || "text",
-          content:
-            (full.content_type || "text") === "text"
-              ? typeof full.content === "string"
-                ? full.content
-                : full.content
-                ? JSON.stringify(full.content, null, 2)
-                : ""
-              : full.content
-              ? JSON.stringify(full.content, null, 2)
-              : "",
+          content: contentText,
           image: (full.meta && (full.meta.image || full.meta.image_url)) || "",
           telegram: ((full.meta && full.meta.telegram) || "").replace(/^@/, ""),
         });
@@ -103,26 +86,38 @@ export default function MyThreadsPage() {
 
   function cancelEdit() {
     setEditingId(null);
-    setForm({ title: "", summary: "", content_type: "text", content: "", image: "", telegram: "" });
+    setOriginalType("text");
+    setForm({ title: "", summary: "", content: "", image: "", telegram: "" });
   }
 
   async function saveEdit(id) {
-    setSaving(true);
-    setOk("");
-    setError("");
+    setSaving(true); setOk(""); setError("");
     try {
       const t = localStorage.getItem("token");
+
+      // bentuk body sesuai form create (tanpa field "tipe konten")
+      // tapi saat kirim content, sesuaikan dengan tipe asli:
+      // - jika thread aslinya text → kirim string apa adanya
+      // - jika thread aslinya json → coba parse ke object (kalau gagal, kirim stringnya)
+      let contentToSend;
+      if (originalType === "text") {
+        contentToSend = form.content;
+      } else {
+        try { contentToSend = JSON.parse(form.content); }
+        catch { contentToSend = form.content; }
+      }
+
       const body = {
         title: form.title,
         summary: form.summary,
-        content_type: form.content_type || "text",
-        content: form.content_type === "text" ? form.content : safeParse(form.content),
+        // tidak mengirim content_type → tipe tidak berubah
+        content: contentToSend,
         meta: {
-          // backend akan abaikan undefined
           image: form.image || undefined,
           telegram: form.telegram ? `@${form.telegram.replace(/^@/, "")}` : undefined,
         },
       };
+
       const r = await fetch(`${API}/threads/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${t}` },
@@ -131,7 +126,6 @@ export default function MyThreadsPage() {
       const txt = await r.text();
       if (!r.ok) throw new Error(txt || "Gagal menyimpan thread");
 
-      // Fetch ulang list agar pasti konsisten
       await reloadMyThreads();
       setOk("Thread berhasil diperbarui.");
       setEditingId(null);
@@ -142,9 +136,7 @@ export default function MyThreadsPage() {
     }
   }
 
-  if (!authed) {
-    return <div className="text-sm text-red-600">{error || "Anda harus login untuk melihat threads Anda."}</div>;
-  }
+  if (!authed) return <div className="text-sm text-red-600">{error || "Anda harus login untuk melihat threads Anda."}</div>;
 
   return (
     <div className="max-w-2xl mx-auto px-3 py-6 space-y-4">
@@ -180,10 +172,7 @@ export default function MyThreadsPage() {
                       </div>
                     </div>
                     <div className="flex gap-2">
-                      <Link
-                        href={`/thread/${encodeURIComponent(th.id)}`}
-                        className="px-3 py-1.5 rounded bg-neutral-100 hover:bg-neutral-200 text-sm"
-                      >
+                      <Link href={`/thread/${encodeURIComponent(th.id)}`} className="px-3 py-1.5 rounded bg-neutral-100 hover:bg-neutral-200 text-sm">
                         Lihat
                       </Link>
                       <button onClick={() => startEdit(th)} className="px-3 py-1.5 rounded bg-black text-white text-sm">
@@ -217,19 +206,6 @@ export default function MyThreadsPage() {
                         />
                       </div>
 
-                      {/* Tipe Konten */}
-                      <div>
-                        <label className="text-sm font-medium">Tipe Konten</label>
-                        <select
-                          className="w-full rounded border px-3 py-2"
-                          value={form.content_type}
-                          onChange={(e) => setForm((f) => ({ ...f, content_type: e.target.value }))}
-                        >
-                          <option value="text">Text</option>
-                          <option value="json">JSON</option>
-                        </select>
-                      </div>
-
                       {/* Konten Thread */}
                       <div>
                         <label className="text-sm font-medium">Konten Thread *</label>
@@ -240,11 +216,6 @@ export default function MyThreadsPage() {
                           value={form.content}
                           onChange={(e) => setForm((f) => ({ ...f, content: e.target.value }))}
                         />
-                        {form.content_type === "json" && (
-                          <div className="text-xs text-neutral-500 mt-1">
-                            Masukkan JSON valid. Pilih "Text" bila tidak membutuhkan struktur.
-                          </div>
-                        )}
                       </div>
 
                       {/* Gambar & Telegram */}
@@ -299,17 +270,6 @@ export default function MyThreadsPage() {
 
 function formatDate(ts) {
   if (!ts) return "";
-  try {
-    return new Date(ts * 1000).toLocaleString();
-  } catch {
-    return "";
-  }
-}
-
-function safeParse(v) {
-  try {
-    return JSON.parse(v);
-  } catch {
-    return v;
-  }
+  try { return new Date(ts * 1000).toLocaleString(); }
+  catch { return ""; }
 }
