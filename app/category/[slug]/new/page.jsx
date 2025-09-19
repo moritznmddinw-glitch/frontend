@@ -19,9 +19,7 @@ export default function CreateThreadPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-    setSuccess("");
-
+    setError(""); setSuccess("");
     if (!title.trim()) return setError("Judul thread wajib diisi");
     if (!content.trim()) return setError("Konten thread wajib diisi");
     if (!telegram.trim()) return setError("Contact telegram wajib diisi");
@@ -52,7 +50,7 @@ export default function CreateThreadPage() {
         throw new Error(txt || "Gagal membuat thread");
       }
       setSuccess("Thread berhasil dibuat!");
-      setTimeout(() => router.push(`/category/${params.slug}`), 1100);
+      setTimeout(() => router.push(`/category/${params.slug}`), 1200);
     } catch (e) {
       setError(e.message);
     } finally {
@@ -61,30 +59,21 @@ export default function CreateThreadPage() {
   };
 
   return (
-    <section className="max-w-lg mx-auto w-full py-10 px-4">
+    <section className="max-w-2xl mx-auto w-full py-12 px-4">
       <div className="mb-7">
-        <h2 className="text-2xl font-bold mb-1">Buat Thread Baru</h2>
-        <div className="text-neutral-500 text-sm">
-          Kategori:{" "}
-          <span className="font-medium capitalize">
-            {params.slug.replace(/-/g, " ")}
-          </span>
+        <h2 className="text-3xl font-bold mb-2 text-black">Buat Thread Baru</h2>
+        <div className="text-neutral-500 text-base">
+          Kategori: <span className="font-medium capitalize">{params.slug.replace(/-/g, " ")}</span>
         </div>
       </div>
 
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white rounded-2xl shadow-md p-7 space-y-5 border"
-        autoComplete="off"
-      >
+      <form onSubmit={handleSubmit} className="bg-white border rounded-xl shadow p-8 space-y-7 card" autoComplete="off">
         {/* Judul */}
         <div>
-          <label className="block mb-1 text-sm font-medium">
-            Judul Thread <span className="text-red-500">*</span>
-          </label>
+          <label className="block mb-2 text-sm font-semibold text-black">Judul Thread <span className="text-red-500">*</span></label>
           <input
             required
-            className="w-full border rounded-lg px-3 py-2 bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full border rounded-lg px-4 py-2 bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
             value={title}
             maxLength={100}
             onChange={(e) => setTitle(e.target.value)}
@@ -94,11 +83,9 @@ export default function CreateThreadPage() {
 
         {/* Ringkasan */}
         <div>
-          <label className="block mb-1 text-sm font-medium">
-            Ringkasan (optional)
-          </label>
+          <label className="block mb-2 text-sm font-semibold text-black">Ringkasan (optional)</label>
           <textarea
-            className="w-full border rounded-lg px-3 py-2 bg-neutral-50 min-h-[70px] focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full border rounded-lg px-4 py-2 bg-neutral-50 min-h-[70px] focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
             rows={3}
             maxLength={300}
             value={summary}
@@ -109,12 +96,10 @@ export default function CreateThreadPage() {
 
         {/* Konten detail */}
         <div>
-          <label className="block mb-1 text-sm font-medium">
-            Konten Thread <span className="text-red-500">*</span>
-          </label>
+          <label className="block mb-2 text-sm font-semibold text-black">Konten Thread <span className="text-red-500">*</span></label>
           <textarea
             required
-            className="w-full border rounded-lg px-3 py-2 bg-neutral-50 min-h-[120px] focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full border rounded-lg px-4 py-2 bg-neutral-50 min-h-[120px] focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
             rows={6}
             value={content}
             onChange={(e) => setContent(e.target.value)}
@@ -124,12 +109,10 @@ export default function CreateThreadPage() {
 
         {/* Upload gambar (sementara URL dulu) */}
         <div>
-          <label className="block mb-1 text-sm font-medium">
-            Gambar (optional)
-          </label>
+          <label className="block mb-2 text-sm font-semibold text-black">Gambar (optional)</label>
           <input
             type="url"
-            className="w-full border rounded-lg px-3 py-2 bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full border rounded-lg px-4 py-2 bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
             value={image}
             onChange={(e) => setImage(e.target.value)}
             placeholder="URL gambar (opsional)"
@@ -138,12 +121,10 @@ export default function CreateThreadPage() {
 
         {/* Contact Telegram */}
         <div>
-          <label className="block mb-1 text-sm font-medium">
-            Contact Telegram <span className="text-red-500">*</span>
-          </label>
+          <label className="block mb-2 text-sm font-semibold text-black">Contact Telegram <span className="text-red-500">*</span></label>
           <input
             required
-            className="w-full border rounded-lg px-3 py-2 bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full border rounded-lg px-4 py-2 bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-blue-500 text-base"
             value={telegram}
             maxLength={50}
             onChange={(e) => setTelegram(e.target.value)}
@@ -152,22 +133,18 @@ export default function CreateThreadPage() {
         </div>
 
         {/* Tombol submit */}
-        <div className="pt-2">
+        <div>
           <button
             type="submit"
             disabled={loading}
-            className="w-full px-5 py-2.5 rounded-lg bg-black text-white font-semibold transition hover:bg-neutral-900 disabled:opacity-50"
+            className="w-full px-5 py-2.5 rounded-lg bg-black text-white font-semibold transition hover:bg-neutral-900 disabled:opacity-50 text-base"
           >
             {loading ? "Membuat..." : "Buat Thread"}
           </button>
         </div>
 
-        {error && (
-          <div className="text-sm text-red-600 text-center">{error}</div>
-        )}
-        {success && (
-          <div className="text-sm text-green-600 text-center">{success}</div>
-        )}
+        {error && <div className="text-sm text-red-600 text-center">{error}</div>}
+        {success && <div className="text-sm text-green-600 text-center">{success}</div>}
       </form>
     </section>
   );
