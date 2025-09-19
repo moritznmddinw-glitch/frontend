@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function ThreadDetailPage({ params }) {
   const { id } = params;
-  const API = `${process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080"}/api`;
+  const API = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080";
 
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -22,7 +22,7 @@ export default function ThreadDetailPage({ params }) {
     let cancelled = false;
     const token = localStorage.getItem("token");
 
-    fetch(`${API}/threads/${id}`, { headers: { Authorization: `Bearer ${token}` } })
+    fetch(`${API}/api/threads/${id}`, { headers: { Authorization: `Bearer ${token}` } })
       .then(res => (res.ok ? res.json() : Promise.reject(new Error("Gagal membaca thread"))))
       .then(json => !cancelled && setData(json))
       .catch(err => !cancelled && setError(err.message))
@@ -34,16 +34,17 @@ export default function ThreadDetailPage({ params }) {
   if (!isAuthed) return <div className="text-sm text-red-600">{error || "Anda harus login untuk melihat thread."}</div>;
 
   return (
-    <main className="max-w-2xl mx-auto py-10 px-4">
+    <section className="max-w-4xl mx-auto py-12 px-4">
       {loading ? (
         <div className="text-sm">Loading...</div>
       ) : error ? (
         <div className="text-sm text-red-600">{error}</div>
       ) : data ? (
-        <>
-          {/* Header */}
-          <h1 className="text-3xl font-bold mb-2">{data.title}</h1>
-          <div className="flex flex-wrap items-center gap-4 text-sm text-neutral-500 mb-1">
+        <div className="border rounded-xl bg-white shadow-md p-8">
+          {/* Judul thread */}
+          <h1 className="text-3xl font-bold text-black mb-3">{data.title}</h1>
+          {/* Info thread */}
+          <div className="flex flex-wrap items-center gap-5 text-sm text-neutral-500 mb-5">
             <span>{formatDate(data.created_at)}</span>
             <span>•</span>
             <span>
@@ -60,7 +61,6 @@ export default function ThreadDetailPage({ params }) {
               </Link>
             </span>
           </div>
-
           {/* Gambar utama */}
           {data.meta?.image && (
             <div className="my-6">
@@ -68,16 +68,14 @@ export default function ThreadDetailPage({ params }) {
                 src={data.meta.image}
                 alt="Gambar Thread"
                 className="rounded-lg w-full max-h-[420px] object-cover border"
-                style={{background: "#f7f7f7"}}
+                style={{ background: "#f7f7f7" }}
               />
             </div>
           )}
-
           {/* Ringkasan */}
           {data.summary && (
             <p className="text-lg leading-relaxed text-neutral-800 mb-6">{data.summary}</p>
           )}
-
           {/* Konten utama */}
           <article>
             {data.content_type === "text" ? (
@@ -90,10 +88,9 @@ export default function ThreadDetailPage({ params }) {
               <ContentTable content={data.content} />
             )}
           </article>
-
           {/* Telegram Contact */}
           {data.meta?.telegram && (
-            <div className="mt-8 flex items-center gap-1 text-base">
+            <div className="mt-8 flex items-center gap-2 text-base">
               <span className="font-medium">Contact Telegram:</span>
               <a
                 href={`https://t.me/${data.meta.telegram.replace(/^@/, "")}`}
@@ -105,13 +102,21 @@ export default function ThreadDetailPage({ params }) {
               </a>
             </div>
           )}
-        </>
+          {/* Aksi navigasi */}
+          <div className="mt-10 flex gap-4">
+            <Link href={`/threads`} className="px-5 py-2 rounded bg-neutral-100 text-black font-medium hover:bg-neutral-200 transition">
+              ← Kembali ke Threads
+            </Link>
+            <Link href={`/category/${encodeURIComponent(data.category?.slug || "")}`} className="px-5 py-2 rounded bg-black text-white font-medium hover:bg-neutral-900 transition">
+              Lihat Kategori
+            </Link>
+          </div>
+        </div>
       ) : null}
-    </main>
+    </section>
   );
 }
 
-// Helper for rendering table-style content (legacy support)
 function ContentTable({ content }) {
   if (!content) return <div className="text-sm text-neutral-600">Tidak ada konten.</div>;
   let rows = [];
