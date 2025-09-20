@@ -39,7 +39,7 @@ export default function Header() {
         </button>
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
-          <Image src="/images/vectorised-1757601408528.svg" alt="Logo" width={36} height={36} priority/>
+          <Image src="/images/logo.svg" alt="Logo" width={36} height={36} priority/>
           <span className="font-bold text-xl text-black hidden md:inline">Ballerina</span>
         </Link>
         {/* Navigasi Desktop */}

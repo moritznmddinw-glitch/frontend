@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <!-- Palet -->
+    <style>
+      .dark { fill:#24292e; stroke:#24292e; }
+      .light { stroke:#ffffff; fill:none; }
+      .cap { stroke-linecap:round; stroke-linejoin:round; vector-effect:non-scaling-stroke; }
+    </style>
+
+    <!-- Emboss halus (highlight putih + bayangan gelap) -->
+    <filter id="emboss" x="-20%" y="-20%" width="140%" height="140%">
+      <!-- Bayangan lembut -->
+      <feDropShadow dx="1.5" dy="2.5" stdDeviation="2.2" flood-color="#0f1215" flood-opacity="0.55"/>
+      <!-- Highlight -->
+      <feDropShadow dx="-1.2" dy="-1.4" stdDeviation="1.6" flood-color="#ffffff" flood-opacity="0.75"/>
+    </filter>
+
+    <!-- Ujung kotak untuk rambut -->
+    <g id="tip">
+      <rect x="-9" y="-9" width="18" height="18" rx="2" ry="2" fill="#ffffff" stroke="#24292e" stroke-width="6"/>
+    </g>
+  </defs>
+
+  <!-- Siluet kepala (diambil dari sketsa, disederhanakan agar rapi untuk logo) -->
+  <g filter="url(#emboss)">
+    <path class="dark" d="
+      M 275 80
+      L 160 240
+      L 230 210
+      C 260 190, 300 180, 320 205
+      L 360 270
+      C 370 285, 385 300, 405 305
+      C 425 310, 450 320, 455 338
+      C 462 364, 452 388, 432 410
+      C 420 422, 414 430, 414 438
+      C 414 446, 420 456, 436 468
+      C 470 492, 506 522, 514 548
+      C 520 568, 512 596, 488 604
+      L 420 626
+      C 380 638, 354 666, 352 704
+      L 348 762
+      C 346 798, 350 826, 360 860
+      C 372 900, 404 938, 456 956
+      C 612 1010, 770 922, 812 820
+      C 856 714, 844 620, 810 542
+      C 774 460, 716 412, 658 388
+      C 622 374, 592 356, 588 334
+      C 584 312, 606 290, 640 284
+      L 716 270
+      L 650 230
+      C 602 202, 562 182, 512 172
+      C 472 164, 438 150, 408 130
+      L 352 96
+      Z" />
+  </g>
+
+  <!-- Lubang hidung & bukaan mulut (negatif) -->
+  <g filter="url(#emboss)">
+    <path d="M 380 578 C 370 566, 372 548, 392 536 C 414 524, 438 536, 446 552 C 454 568, 446 584, 430 592 C 412 600, 392 592, 380 578 Z"
+          fill="#ffffff" stroke="#24292e" stroke-width="12" />
+    <!-- Ruang gigi (bukaan rahang) -->
+    <path d="M 302 672 L 302 820 L 368 792 L 368 644 Z"
+          fill="#ffffff" stroke="#24292e" stroke-width="12"/>
+  </g>
+
+  <!-- Gigi kotak (mengikuti ciri sketsa) -->
+  <g filter="url(#emboss)">
+    <rect x="318" y="675" width="32" height="36" rx="6" class="dark"/>
+    <rect x="318" y="720" width="32" height="36" rx="6" class="dark"/>
+    <rect x="318" y="765" width="32" height="36" rx="6" class="dark"/>
+  </g>
+
+  <!-- Mata & segitiga telinga dalam -->
+  <g filter="url(#emboss)">
+    <path d="M 480 384 L 536 420 L 468 430 Z" fill="#ffffff" stroke="#24292e" stroke-width="12"/>
+    <path d="M 290 178 L 376 116 L 336 210 Z" fill="#ffffff" stroke="#24292e" stroke-width="12"/>
+  </g>
+
+  <!-- Rambut kepala (3 helai pendek dengan kotak) -->
+  <g class="cap" stroke-width="22" filter="url(#emboss)">
+    <path class="light" d="M 390 250 C 360 260, 340 280, 332 312"/>
+    <use href="#tip" x="332" y="312"/>
+    <path class="light" d="M 430 266 C 404 274, 388 292, 380 324"/>
+    <use href="#tip" x="380" y="324"/>
+    <path class="light" d="M 468 286 C 446 292, 430 310, 424 342"/>
+    <use href="#tip" x="424" y="342"/>
+  </g>
+
+  <!-- Rambut leher (helai panjang berombak + kotak di ujung) -->
+  <g class="cap" stroke-width="24" filter="url(#emboss)">
+    <path class="light" d="M 612 336 C 600 380, 602 418, 626 456 C 650 492, 654 530, 640 560" />
+    <use href="#tip" x="640" y="560"/>
+    <path class="light" d="M 650 350 C 640 392, 650 428, 682 468 C 708 500, 710 540, 694 574" />
+    <use href="#tip" x="694" y="574"/>
+    <path class="light" d="M 682 360 C 676 406, 690 440, 724 476 C 754 508, 758 556, 740 594" />
+    <use href="#tip" x="740" y="594"/>
+    <path class="light" d="M 712 372 C 710 414, 726 450, 762 484 C 792 512, 800 560, 790 604" />
+    <use href="#tip" x="790" y="604"/>
+    <path class="light" d="M 736 384 C 742 432, 768 470, 808 506 C 844 538, 850 590, 838 632" />
+    <use href="#tip" x="838" y="632"/>
+    <path class="light" d="M 758 398 C 774 450, 816 488, 864 520 C 896 542, 908 586, 900 620" />
+    <use href="#tip" x="900" y="620"/>
+  </g>
+
+  <!-- Outline highlight putih tipis untuk memberi kesan timbul -->
+  <g filter="url(#emboss)">
+    <path d="M 275 80 L 160 240 L 230 210 C 260 190, 300 180, 320 205 L 360 270 C 370 285, 385 300, 405 305 C 425 310, 450 320, 455 338 C 462 364, 452 388, 432 410 C 420 422, 414 430, 414 438 C 414 446, 420 456, 436 468 C 470 492, 506 522, 514 548 C 520 568, 512 596, 488 604 L 420 626 C 380 638, 354 666, 352 704 L 348 762 C 346 798, 350 826, 360 860 C 372 900, 404 938, 456 956 C 612 1010, 770 922, 812 820 C 856 714, 844 620, 810 542 C 774 460, 716 412, 658 388 C 622 374, 592 356, 588 334 C 584 312, 606 290, 640 284 L 716 270 L 650 230 C 602 202, 562 182, 512 172 C 472 164, 438 150, 408 130 L 352 96 Z"
+          fill="none" stroke="#ffffff" stroke-width="8" vector-effect="non-scaling-stroke" />
+  </g>
+</svg>
