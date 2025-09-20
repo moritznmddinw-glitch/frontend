@@ -1,77 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
-  <!-- Siluet kepala (isi gelap) -->
-  <path d="M275 80 L160 240 L230 210 C260 190 300 180 320 205 L360 270
-           C370 285 385 300 405 305 C425 310 450 320 455 338
-           C462 364 452 388 432 410 C420 422 414 430 414 438
-           C414 446 420 456 436 468 C470 492 506 522 514 548
-           C520 568 512 596 488 604 L420 626
-           C380 638 354 666 352 704 L348 762
-           C346 798 350 826 360 860 C372 900 404 938 456 956
-           C612 1010 770 922 812 820
-           C856 714 844 620 810 542
-           C774 460 716 412 658 388
-           C622 374 592 356 588 334
-           C584 312 606 290 640 284 L716 270
-           L650 230 C602 202 562 182 512 172
-           C472 164 438 150 408 130 L352 96 Z"
-        fill="#24292e" stroke="#24292e" stroke-width="8" stroke-linejoin="round"/>
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Ballerina Horse Head Logo</title>
+  <desc id="desc">Silhouette kepala kuda dengan surai seperti kabel berwarna putih di atas badan gelap.</desc>
 
-  <!-- Highlight tepi (memberi kesan timbul flat) -->
-  <path d="M275 80 L160 240 L230 210 C260 190 300 180 320 205 L360 270
-           C370 285 385 300 405 305 C425 310 450 320 455 338
-           C462 364 452 388 432 410 C420 422 414 430 414 438
-           C414 446 420 456 436 468 C470 492 506 522 514 548
-           C520 568 512 596 488 604 L420 626
-           C380 638 354 666 352 704 L348 762
-           C346 798 350 826 360 860 C372 900 404 938 456 956
-           C612 1010 770 922 812 820
-           C856 714 844 620 810 542
-           C774 460 716 412 658 388
-           C622 374 592 356 588 334
-           C584 312 606 290 640 284 L716 270
-           L650 230 C602 202 562 182 512 172
-           C472 164 438 150 408 130 L352 96 Z"
-        fill="none" stroke="#ffffff" stroke-width="6" stroke-linejoin="round" />
+  <!-- Warna dasar gelap (hitam kebiruan). Ganti ke #000 bila ingin benar-benar hitam -->
+  <defs>
+    <clipPath id="clip">
+      <path d="M42 184c3 9 12 21 22 24 11 3 29-5 38-9 3-1 5-2 7-2 21 0 54-1 77-9 6-2 9-10 10-16 4-22-3-44-9-61-3-7-8-13-14-18l-4-3c-1-6-1-11-1-16 0-3-1-6-2-8-2-3-5-6-9-8-7-4-19-8-28-8-3 0-5 2-7 4-2 3-4 6-5 9-1 1-2 1-3 1-5 0-13-2-19-3-4-1-9 2-10 5-2 6-4 15-4 22 0 2 0 4-1 5-4 5-10 14-13 19-5 8-9 17-12 26-6 16-10 32-6 46Z"/>
+    </clipPath>
+  </defs>
 
-  <!-- Mata & telinga dalam -->
-  <path d="M480 384 L536 420 L468 430 Z" fill="#ffffff" stroke="#24292e" stroke-width="10" stroke-linejoin="round"/>
-  <path d="M290 178 L376 116 L336 210 Z" fill="#ffffff" stroke="#24292e" stroke-width="10" stroke-linejoin="round"/>
+  <!-- Siluet kepala -->
+  <path fill="#0D1522" d="M42 184c3 9 12 21 22 24 11 3 29-5 38-9 3-1 5-2 7-2 21 0 54-1 77-9 6-2 9-10 10-16 4-22-3-44-9-61-3-7-8-13-14-18l-4-3c-1-6-1-11-1-16 0-3-1-6-2-8-2-3-5-6-9-8-7-4-19-8-28-8-3 0-5 2-7 4-2 3-4 6-5 9-1 1-2 1-3 1-5 0-13-2-19-3-4-1-9 2-10 5-2 6-4 15-4 22 0 2 0 4-1 5-4 5-10 14-13 19-5 8-9 17-12 26-6 16-10 32-6 46Z"/>
 
-  <!-- Lubang hidung & bukaan mulut (negatif/putih) -->
-  <path d="M380 578 C370 566 372 548 392 536 C414 524 438 536 446 552 C454 568 446 584 430 592 C412 600 392 592 380 578 Z"
-        fill="#ffffff" stroke="#24292e" stroke-width="10" stroke-linejoin="round"/>
-  <path d="M302 672 L302 820 L368 792 L368 644 Z"
-        fill="#ffffff" stroke="#24292e" stroke-width="10" stroke-linejoin="round"/>
+  <!-- Telinga -->
+  <path fill="#0D1522" d="M148 53c3 10 3 22 2 28 8 3 16 7 20 10-1-13-1-28 3-38 1-3 1-6-1-8-3-3-12-6-18-7-4 0-7 7-6 15Z"/>
+  <path fill="#0D1522" d="M113 54c-1 8-2 18-1 24-6-2-14-3-21-5 0-9 2-20 5-26 2-3 6-5 9-4 5 1 8 5 8 11Z"/>
 
-  <!-- Gigi kotak -->
-  <rect x="318" y="675" width="32" height="36" rx="6" fill="#24292e" stroke="#24292e" stroke-width="8"/>
-  <rect x="318" y="720" width="32" height="36" rx="6" fill="#24292e" stroke="#24292e" stroke-width="8"/>
-  <rect x="318" y="765" width="32" height="36" rx="6" fill="#24292e" stroke="#24292e" stroke-width="8"/>
+  <!-- Mata -->
+  <path fill="#FFFFFF" d="M97 123c7-10 23-16 31-12 5 3 0 12-10 19-9 6-23 6-27 1-1-2 1-5 6-8Z"/>
+  <path fill="#8CA0B3" d="M105 127c6-4 12-8 16-9-3 6-8 11-14 14-6 3-12 3-13 0 3-2 7-4 11-5Z"/>
 
-  <!-- Rambut kepala (3 helai + kotak) -->
-  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M390 250 C360 260 340 280 332 312" stroke="#ffffff" stroke-width="20"/>
-    <rect x="323" y="303" width="18" height="18" rx="2" fill="#ffffff" stroke="#24292e" stroke-width="6"/>
-    <path d="M430 266 C404 274 388 292 380 324" stroke="#ffffff" stroke-width="20"/>
-    <rect x="371" y="315" width="18" height="18" rx="2" fill="#ffffff" stroke="#24292e" stroke-width="6"/>
-    <path d="M468 286 C446 292 430 310 424 342" stroke="#ffffff" stroke-width="20"/>
-    <rect x="415" y="333" width="18" height="18" rx="2" fill="#ffffff" stroke="#24292e" stroke-width="6"/>
+  <!-- Hidung & mulut (potongan) -->
+  <path fill="#0A111C" d="M62 170c6 11 20 22 26 28-10 5-21 9-29 7-7-2-14-10-17-18 4-8 13-14 20-17Z"/>
+
+  <!-- Area surai untuk klip -->
+  <g clip-path="url(#clip)">
+    <!-- Surai: garis seperti kabel -->
+    <g stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <path d="M116 85c-10 18-12 33-1 44"/>
+      <path d="M131 87c-7 14-10 28-4 39"/>
+      <path d="M146 92c-6 13-9 31 3 45"/>
+      <path d="M159 96c-8 17-9 37 9 53"/>
+      <path d="M173 103c-7 18-3 41 17 58"/>
+      <path d="M184 111c-6 18 3 41 24 59"/>
+      <path d="M195 122c-3 18 8 39 31 54"/>
+    </g>
+
+    <!-- ujung kabel kecil (kotak) -->
+    <g fill="#FFFFFF">
+      <rect x="108" y="120" width="8" height="8" rx="1"/>
+      <rect x="125" y="129" width="8" height="8" rx="1"/>
+      <rect x="141" y="142" width="8" height="8" rx="1"/>
+      <rect x="160" y="156" width="8" height="8" rx="1"/>
+      <rect x="180" y="168" width="8" height="8" rx="1"/>
+      <rect x="200" y="178" width="8" height="8" rx="1"/>
+      <rect x="219" y="188" width="8" height="8" rx="1"/>
+    </g>
   </g>
 
-  <!-- Rambut leher (helai panjang berombak + kotak ujung) -->
-  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M612 336 C600 380 602 418 626 456 C650 492 654 530 640 560" stroke="#ffffff" stroke-width="22"/>
-    <rect x="631" y="551" width="18" height="18" rx="2" fill="#ffffff" stroke="#24292e" stroke-width="6"/>
-    <path d="M650 350 C640 392 650 428 682 468 C708 500 710 540 694 574" stroke="#ffffff" stroke-width="22"/>
-    <rect x="685" y="565" width="18" height="18" rx="2" fill="#ffffff" stroke="#24292e" stroke-width="6"/>
-    <path d="M682 360 C676 406 690 440 724 476 C754 508 758 556 740 594" stroke="#ffffff" stroke-width="22"/>
-    <rect x="731" y="585" width="18" height="18" rx="2" fill="#ffffff" stroke="#24292e" stroke-width="6"/>
-    <path d="M712 372 C710 414 726 450 762 484 C792 512 800 560 790 604" stroke="#ffffff" stroke-width="22"/>
-    <rect x="781" y="595" width="18" height="18" rx="2" fill="#ffffff" stroke="#24292e" stroke-width="6"/>
-    <path d="M736 384 C742 432 768 470 808 506 C844 538 850 590 838 632" stroke="#ffffff" stroke-width="22"/>
-    <rect x="829" y="623" width="18" height="18" rx="2" fill="#ffffff" stroke="#24292e" stroke-width="6"/>
-    <path d="M758 398 C774 450 816 488 864 520 C896 542 908 586 900 620" stroke="#ffffff" stroke-width="22"/>
-    <rect x="891" y="611" width="18" height="18" rx="2" fill="#ffffff" stroke="#24292e" stroke-width="6"/>
-  </g>
+  <!-- Garis potongan di antara pipi & leher -->
+  <path d="M94 165c10-8 18-12 26-15" stroke="#0A111C" stroke-width="6" stroke-linecap="round"/>
+
 </svg>
