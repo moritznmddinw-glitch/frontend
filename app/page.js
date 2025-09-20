@@ -17,7 +17,7 @@ export default function Home() {
         </div>
         <div className="flex-1 hidden md:block">
           {/* Ilustrasi/logo */}
-          <Image src="/images/vectorised-1758374067909.svg" alt="Ballerina" className="w-48 mx-auto" />
+          <image src="/images/vectorised-1758374067909.svg" alt="Ballerina" className="w-48 mx-auto" />
         </div>
       </div>
 
