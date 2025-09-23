@@ -4,7 +4,7 @@ import { useState } from "react";
 
 // Kategori threads (bisa fetch dinamis, di sini statis)
 const threadCategories = [
-  "Mencari Pekerjaan","Cryptocurrency","Software","Dokter buka praktek","Kerja Lepas","Iklan","Akuntansi","Dropshiper","Jasa Tugas Kantor","Akun Digital","HP & Komputer","Drama Korea","Jasa Tugas Belajar","Kolaborator Ph.D","Marketing Offline","Investor","Anti Penipuan","Bantuan Darurat","Cari Relasi","AI Digest","Masa Depan-Ku","Report Massal"
+  "Mencari Pekerjaan","Cryptocurrency","Software","Dokter buka praktek","Kerja Lepas","Iklan","Akuntansi","Dropshiper","Jasa Tugas Kantor","Akun Digital","HP & Komputer","Drama Korea","Jasa Tugas Belajar","Kolaborator Ph.D","Marketing Offline","Investor","Anti Penipuan","Bantuan Darurat","Cari Relasi","AI Digest","Masa Depan-Ku","Report Massal","Email Transaksional","Script","Programming"
 ];
 
 // Topik diskusi populer (saran pengganti "Threads" sidebar)
@@ -54,10 +54,12 @@ export default function Sidebar({ open, onClose }) {
             </button>
           </div>
           {/* Navigasi utama */}
-          <nav className="flex gap-2 font-medium text-base">
+          <nav className="flex gap-2 font-medium text-base flex-wrap">
             <Link href="/" className="py-1.5 px-3 rounded hover:bg-neutral-100" onClick={onClose}>Home</Link>
             <Link href="/about-content" className="py-1.5 px-3 rounded hover:bg-neutral-100" onClick={onClose}>Tentang Kami</Link>
             <Link href="/rules-content" className="py-1.5 px-3 rounded hover:bg-neutral-100" onClick={onClose}>Aturan</Link>
+            <Link href="/contact-support" className="py-1.5 px-3 rounded hover:bg-neutral-100" onClick={onClose}>Contact Support</Link>
+            <Link href="/pengajuan-badge" className="py-1.5 px-3 rounded hover:bg-neutral-100" onClick={onClose}>Pengajuan Badge</Link>
           </nav>
           {/* Search kategori */}
           <input

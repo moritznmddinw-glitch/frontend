@@ -35,15 +35,12 @@ export default function ProfileSidebar({ onClose }) {
       <nav className="flex flex-col gap-2 pt-2">
         <Link href="/account" className="px-3 py-2 rounded bg-neutral-50 hover:bg-neutral-100">Account</Link>
         <Link href="/threads" className="px-3 py-2 rounded bg-neutral-50 hover:bg-neutral-100">Threads</Link>
-        <Link href="/marks" className="px-3 py-2 rounded bg-neutral-50 hover:bg-neutral-100">Mark off</Link>
+        <button
+          onClick={() => (window.location.href = "/refill-balance")}
+          className="w-full text-left px-3 py-2 rounded bg-neutral-50 hover:bg-neutral-100"
+        >Refill Balance</button>
+        <Link href="/transfer-balance" className="px-3 py-2 rounded bg-neutral-50 hover:bg-neutral-100">Transfer Balance</Link>
       </nav>
-      <div className="pt-2">
-        <button onClick={() => (window.location.href = "/refill-balance")} className="w-full text-left px-3 py-2 rounded bg-neutral-50 hover:bg-neutral-100">Refill Balance</button>
-      </div>
-      <div className="pt-2">
-        <button onClick={() => (window.location.href = "/withdraw-balance")} className="w-full text-left px-3 py-2 rounded bg-neutral-50 hover:bg-neutral-100">Withdraw Balance</button>
-      </div>
-      <Link href="/transfer-balance" className="block px-3 py-2 rounded bg-neutral-50 hover:bg-neutral-100">Transfer Balance</Link>
       <button onClick={handleLogout} className="mt-3 w-full text-left px-3 py-2 rounded bg-red-50 hover:bg-red-100 text-red-600">Logout</button>
     </div>
   );

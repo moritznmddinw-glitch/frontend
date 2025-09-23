@@ -7,7 +7,7 @@ import Sidebar from "./Sidebar";
 import ProfileSidebar from "./ProfileSidebar";
 
 const threadCategories = [
-  "Mencari Pekerjaan","Cryptocurrency","Software","Dokter buka praktek","Kerja Lepas","Iklan","Akuntansi","Dropshiper","Jasa Tugas Kantor","Akun Digital","HP & Komputer","Drama Korea","Jasa Tugas Belajar","Kolaborator Ph.D","Marketing Offline","Investor","Anti Penipuan","Bantuan Darurat","Cari Relasi","AI Digest","Masa Depan-Ku","Report Massal"
+  "Mencari Pekerjaan","Cryptocurrency","Software","Dokter buka praktek","Kerja Lepas","Iklan","Akuntansi","Dropshiper","Jasa Tugas Kantor","Akun Digital","HP & Komputer","Drama Korea","Jasa Tugas Belajar","Kolaborator Ph.D","Marketing Offline","Investor","Anti Penipuan","Bantuan Darurat","Cari Relasi","AI Digest","Masa Depan-Ku","Report Massal","Email Transaksional","Script","Programming"
 ];
 
 function slugify(name) {
@@ -40,7 +40,6 @@ export default function Header() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
           <Image src="/images/vectorised-1758374067909.svg" alt="Logo" width={36} height={36} priority/>
-          <span className="font-bold text-xl text-black hidden md:inline">Ballerina</span>
         </Link>
         {/* Navigasi Desktop */}
         <nav className="hidden md:flex gap-8 text-base font-medium text-neutral-700 mx-auto">
