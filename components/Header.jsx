@@ -6,12 +6,19 @@ import { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import ProfileSidebar from "./ProfileSidebar";
 
+// Kategori threads - konsisten
 const threadCategories = [
   "Mencari Pekerjaan","Cryptocurrency","Software","Dokter buka praktek","Kerja Lepas","Iklan","Akuntansi","Dropshiper","Jasa Tugas Kantor","Akun Digital","HP & Komputer","Drama Korea","Jasa Tugas Belajar","Kolaborator Ph.D","Marketing Offline","Investor","Anti Penipuan","Bantuan Darurat","Cari Relasi","AI Digest","Masa Depan-Ku","Report Massal","Email Transaksional","Script","Programming"
 ];
 
 function slugify(name) {
-  return name.toLowerCase().replace(/\./g,"").replace(/&/g,"-").replace(/\s+/g,"-").replace(/[^a-z0-9-]/g,"").replace(/-+/g,"-").replace(/^-|-$/g,"");
+  return name.toLowerCase()
+    .replace(/\./g,"")
+    .replace(/&/g,"-")
+    .replace(/\s+/g,"-")
+    .replace(/[^a-z0-9-]/g,"")
+    .replace(/-+/g,"-")
+    .replace(/^-|-$/g,"");
 }
 
 export default function Header() {
@@ -25,7 +32,7 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-white border-b border-neutral-200 shadow-sm">
+    <header className="fixed top-0 left-0 w-full z-modal bg-white border-b border-neutral-200 shadow-sm">
       <div className="max-w-6xl mx-auto flex items-center justify-between px-4 h-16 relative">
         {/* Hamburger */}
         <button
@@ -49,7 +56,7 @@ export default function Header() {
             onMouseEnter={() => setCategoriesOpen(true)}
             onMouseLeave={() => setCategoriesOpen(false)}
           >
-            <button className="hover:text-black flex items-center gap-1">
+            <button className="hover:text-black flex items-center gap-1" aria-haspopup="true" aria-expanded={categoriesOpen}>
               Kategori
               <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"/>
@@ -57,7 +64,7 @@ export default function Header() {
             </button>
             {/* Dropdown kategori */}
             {categoriesOpen && (
-              <div className="absolute top-full left-0 mt-2 w-56 max-h-96 overflow-y-auto bg-white border border-neutral-200 rounded shadow-lg z-50">
+              <div className="absolute top-full left-0 mt-2 w-56 max-h-96 overflow-y-auto bg-white border border-neutral-200 rounded shadow-lg z-dropdown animate-fadeIn">
                 {threadCategories.map(cat => (
                   <Link key={cat} href={`/category/${slugify(cat)}`}
                     className="block px-4 py-2 text-sm text-neutral-700 hover:bg-blue-50 hover:text-blue-700 transition"
@@ -80,7 +87,7 @@ export default function Header() {
               {profileOpen && <ProfileSidebar onClose={() => setProfileOpen(false)} />}
             </>
           ) : (
-            <Link href="/login" className="px-4 py-1.5 rounded bg-black text-white font-semibold hover:bg-neutral-900 transition">Masuk</Link>
+            <Link href="/login" className="btn">Masuk</Link>
           )}
         </div>
       </div>
