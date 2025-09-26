@@ -2,12 +2,11 @@
 import Link from "next/link";
 import { useState } from "react";
 
-// Kategori threads
+// Kategori threads - konsisten dengan sumber project
 const threadCategories = [
   "Mencari Pekerjaan","Cryptocurrency","Software","Dokter buka praktek","Kerja Lepas","Iklan","Akuntansi","Dropshiper","Jasa Tugas Kantor","Akun Digital","HP & Komputer","Drama Korea","Jasa Tugas Belajar","Kolaborator Ph.D","Marketing Offline","Investor","Anti Penipuan","Bantuan Darurat","Cari Relasi","AI Digest","Masa Depan-Ku","Report Massal","Email Transaksional","Script","Programming"
 ];
 
-// Topik diskusi populer
 const popularTopics = [
   { label: "AI & Machine Learning", href: "/category/ai-digest" },
   { label: "Karir & Riset", href: "/category/mencari-pekerjaan" },
@@ -16,9 +15,14 @@ const popularTopics = [
   { label: "Anti Penipuan", href: "/category/anti-penipuan" },
 ];
 
-// Fungsi slugify kategori
 function slugify(name) {
-  return name.toLowerCase().replace(/\./g,"").replace(/&/g,"-").replace(/\s+/g,"-").replace(/[^a-z0-9-]/g,"").replace(/-+/g,"-").replace(/^-|-$/g,"");
+  return name.toLowerCase()
+    .replace(/\./g,"")
+    .replace(/&/g,"-")
+    .replace(/\s+/g,"-")
+    .replace(/[^a-z0-9-]/g,"")
+    .replace(/-+/g,"-")
+    .replace(/^-|-$/g,"");
 }
 
 export default function Sidebar({ open, onClose }) {
@@ -32,7 +36,7 @@ export default function Sidebar({ open, onClose }) {
   return (
     <>
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-80 bg-white border-r border-neutral-200 shadow-2xl transition-transform duration-200 md:hidden flex flex-col`}
+        className={`fixed inset-y-0 left-0 z-overlay w-80 bg-white border-r border-neutral-200 shadow-2xl transition-transform duration-200 md:hidden flex flex-col`}
         style={{
           transform: open ? "translateX(0)" : "translateX(-100%)",
           maxHeight: "100vh",
@@ -71,7 +75,8 @@ export default function Sidebar({ open, onClose }) {
               aria-label="AI Search"
             >
               <span className="inline-flex items-center gap-2">
-                <svg width="18" height="18" fill="none" viewBox="0 0 18 18"><circle cx="8" cy="8" r="7" stroke="#2563eb" strokeWidth="2"/><path d="M14.5 14.5L11.5 11.5" stroke="#2563eb" strokeWidth="2" strokeLinecap="round"/></svg>
+                <svg width="18" height="18" fill="none" viewBox="0 0 18 18"><circle cx="8" cy="8" r="7" stroke="#2563eb" strokeWidth="2"/><path d="M14.5 14.5L11.5 11.5" stroke="#2563eb" strokeWidth="2"/>
+                </svg>
                 AI Search
               </span>
             </Link>
@@ -79,7 +84,7 @@ export default function Sidebar({ open, onClose }) {
           {/* Search kategori */}
           <input
             type="text"
-            className="mt-3 w-full rounded px-3 py-2 border bg-neutral-50 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="mt-3 w-full input"
             placeholder="Cari kategori thread…"
             value={search}
             onChange={e => setSearch(e.target.value)}
@@ -134,6 +139,7 @@ export default function Sidebar({ open, onClose }) {
         <div
           className="fixed inset-0 z-40 bg-black/30 md:hidden"
           onClick={onClose}
+          aria-label="Sidebar Overlay"
         />
       )}
     </>
