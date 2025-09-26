@@ -1,3 +1,26 @@
+/* ============================================================
+   Ballerina Design System & UI Style Guide
+   ------------------------------------------------------------
+   Prinsip:
+    - Konsistensi visual: warna, radius, shadow, font dari :root
+    - Komponen modular: style reusable, props-driven
+    - Responsif: grid, flex, spacing proporsional
+    - Aksesibilitas: label, aria, kontras, navigasi keyboard
+    - Interaksi modern: hover/focus/active/disabled/transition
+    - State UI: alert, spinner, loading, error, success, disabled
+    - Dark mode: otomatis, warna kontras tetap
+    - Z-index layer: modal, dropdown, overlay
+    - Card, list, form, button: utility terstandarisasi
+    - Animasi/transisi: subtle, tidak mengganggu UX
+   Utility Class Referensi:
+    - .alert, .alert-error, .alert-success
+    - .spinner
+    - .z-modal, .z-dropdown, .z-overlay
+    - .transition, .transition-fast
+    - .card, .section, .list-disc, .line-clamp-N
+   ============================================================
+*/
+
 @import "tailwindcss";
 
 /* CSS Variables for theme & font */
@@ -9,6 +32,12 @@
   --shadow: 0 1px 6px rgba(0,0,0,0.06);
   --font-sans: var(--font-geist-sans, Arial, Helvetica, sans-serif);
   --font-mono: var(--font-geist-mono, Menlo, Monaco, monospace);
+
+  /* Alert colors */
+  --red: #dc2626;
+  --green: #059669;
+  --yellow: #eab308;
+  --blue: #2563eb;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -35,16 +64,18 @@ h1, h2, h3, h4, h5, h6 {
 a {
   text-decoration: none;
   color: inherit;
+  transition: color 0.2s;
 }
 
 a:hover {
   text-decoration: underline;
-  color: #2563eb; /* blue-600 */
+  color: var(--blue); /* blue-600 */
 }
 
 input, textarea, select, button {
   font-family: inherit;
   font-size: 1rem;
+  transition: border 0.2s, box-shadow 0.2s;
 }
 
 img, svg {
@@ -59,6 +90,7 @@ img, svg {
   line-height: 1.7;
 }
 
+/* Utility border, card, shadow */
 .border {
   border-radius: var(--radius);
   border: 1px solid var(--border);
@@ -109,3 +141,88 @@ img, svg {
   -webkit-box-orient: vertical;  
   overflow: hidden;
 }
+
+/* ======== Alert Utility ======== */
+.alert {
+  border-radius: var(--radius);
+  padding: 1rem;
+  font-size: 1rem;
+  border: 1px solid var(--border);
+  margin-bottom: 1rem;
+  background: #f8fafc;
+  color: var(--foreground);
+}
+
+.alert-error {
+  border-color: var(--red);
+  background: #fef2f2;
+  color: var(--red);
+}
+
+.alert-success {
+  border-color: var(--green);
+  background: #f0fdf4;
+  color: var(--green);
+}
+
+/* ======== Spinner Utility ======== */
+.spinner {
+  width: 1.5em;
+  height: 1.5em;
+  border: 3px solid #e5e7eb;
+  border-top: 3px solid var(--blue);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ======== Z-Index Utility ======== */
+.z-modal { z-index: 1000; }
+.z-dropdown { z-index: 900; }
+.z-overlay { z-index: 800; }
+
+/* ======== Transition Utility ======== */
+.transition { transition: all 0.3s ease; }
+.transition-fast { transition: all 0.15s ease; }
+
+/* ======== Button Utility ======== */
+.btn {
+  display: inline-block;
+  border-radius: var(--radius);
+  font-weight: 500;
+  padding: 0.6em 1.2em;
+  background: var(--blue);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, opacity 0.2s;
+}
+.btn:hover { background: #1d4ed8; }
+.btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* ======== Input Utility ======== */
+.input {
+  width: 100%;
+  padding: 0.6em 1em;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: #f8fafc;
+  color: var(--foreground);
+  font-size: 1rem;
+  transition: border 0.2s;
+}
+.input:focus {
+  border-color: var(--blue);
+  outline: none;
+  background: #fff;
+}
+
+/* ======== Responsive Hide Utility ======== */
+.hide-mobile { display: none !important; }
+@media (min-width: 640px) { .hide-mobile { display: block !important; } }
+.hide-desktop { display: block !important; }
+@media (min-width: 640px) { .hide-desktop { display: none !important; } }

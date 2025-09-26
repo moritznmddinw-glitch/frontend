@@ -1,6 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Button from "../../components/ui/Button";
+import Input from "../../components/ui/Input";
+import Alert from "../../components/ui/Alert";
 
 export default function AccountPage() {
   const API = `${process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080"}/api`;
@@ -131,14 +134,16 @@ export default function AccountPage() {
     } catch (e) { setError(String(e.message || e)); } finally { setChgLoading(false); }
   }
 
-  if (!authed) return <div className="text-sm text-red-600">Anda harus login untuk mengelola akun.</div>;
+  if (!authed) return <Alert type="error" message="Anda harus login untuk mengelola akun." />;
 
   return (
     <div className="max-w-2xl space-y-4">
       <h2 className="text-xl font-semibold">Account</h2>
 
       {loading ? (
-        <div className="text-sm">Loading...</div>
+        <div className="flex items-center gap-2 text-sm">
+          <span className="spinner" /> Loading...
+        </div>
       ) : (
         <>
           <section className="border rounded p-4">
@@ -152,29 +157,30 @@ export default function AccountPage() {
                 />
               </div>
               <div className="flex-1 space-y-2">
-                <input
+                <Input
                   type="file"
                   accept="image/*"
                   onChange={onAvatarFileChange}
+                  label=""
                   className="block w-full text-sm"
                 />
                 <div className="flex gap-2">
-                  <button
+                  <Button
                     type="button"
                     onClick={uploadAvatar}
                     disabled={avatarUploading || !avatarFile}
-                    className="px-4 py-2 rounded bg-black text-white disabled:opacity-50"
+                    loading={avatarUploading}
                   >
-                    {avatarUploading ? "Mengunggah..." : "Simpan Foto"}
-                  </button>
+                    Simpan Foto
+                  </Button>
                   {avatarPreview && (
-                    <button
+                    <Button
                       type="button"
+                      variant="secondary"
                       onClick={() => { setAvatarFile(null); setAvatarPreview(""); }}
-                      className="px-3 py-2 rounded bg-neutral-100"
                     >
                       Batal
-                    </button>
+                    </Button>
                   )}
                 </div>
                 <div className="text-xs text-neutral-500">Gunakan gambar rasio 1:1 untuk hasil terbaik. Max ~2MB (sesuaikan backend).</div>
@@ -185,45 +191,79 @@ export default function AccountPage() {
           <section className="border rounded p-4">
             <h3 className="font-medium">Profil</h3>
             <form onSubmit={saveAccount} className="mt-3 space-y-3">
-              <div>
-                <label className="text-sm">Name</label>
-                <input className="w-full rounded border px-3 py-2" value={form.full_name} onChange={e => setForm(f => ({ ...f, full_name: e.target.value }))} />
-              </div>
+              <Input
+                label="Name"
+                value={form.full_name}
+                onChange={e => setForm(f => ({ ...f, full_name: e.target.value }))}
+              />
               <div>
                 <label className="text-sm">Bio</label>
-                <textarea rows={3} className="w-full rounded border px-3 py-2" value={form.bio} onChange={e => setForm(f => ({ ...f, bio: e.target.value }))} />
+                <textarea
+                  rows={3}
+                  className="input"
+                  value={form.bio}
+                  onChange={e => setForm(f => ({ ...f, bio: e.target.value }))}
+                />
               </div>
               <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="text-sm">Pronouns</label>
-                  <input className="w-full rounded border px-3 py-2" value={form.pronouns} onChange={e => setForm(f => ({ ...f, pronouns: e.target.value }))} />
-                </div>
-                <div>
-                  <label className="text-sm">Company</label>
-                  <input className="w-full rounded border px-3 py-2" value={form.company} onChange={e => setForm(f => ({ ...f, company: e.target.value }))} />
-                </div>
+                <Input
+                  label="Pronouns"
+                  value={form.pronouns}
+                  onChange={e => setForm(f => ({ ...f, pronouns: e.target.value }))}
+                />
+                <Input
+                  label="Company"
+                  value={form.company}
+                  onChange={e => setForm(f => ({ ...f, company: e.target.value }))}
+                />
               </div>
-              <div>
-                <label className="text-sm">Contact Telegram</label>
-                <input className="w-full rounded border px-3 py-2" placeholder="@username" value={form.telegram} onChange={e => setForm(f => ({ ...f, telegram: e.target.value }))} />
-              </div>
-
+              <Input
+                label="Contact Telegram"
+                placeholder="@username"
+                value={form.telegram}
+                onChange={e => setForm(f => ({ ...f, telegram: e.target.value }))}
+              />
               <div>
                 <label className="text-sm font-medium">Social Accounts</label>
                 <div className="space-y-2 mt-2">
                   {socials.map((s, i) => (
                     <div key={i} className="grid grid-cols-2 gap-2 items-start">
-                      <input className="rounded border px-3 py-2" placeholder="Label (Instagram, LinkedIn, Toko Shopee, dll)" value={s.label || ""} onChange={e => updateSocial(i, "label", e.target.value)} />
-                      <input className="rounded border px-3 py-2" placeholder="https://..." value={s.url || ""} onChange={e => updateSocial(i, "url", e.target.value)} />
-                      <div className="col-span-2 text-right"><button type="button" onClick={() => removeSocial(i)} className="text-xs text-red-600">Hapus</button></div>
+                      <Input
+                        placeholder="Label (Instagram, LinkedIn, Toko Shopee, dll)"
+                        value={s.label || ""}
+                        onChange={e => updateSocial(i, "label", e.target.value)}
+                        className=""
+                      />
+                      <Input
+                        placeholder="https://..."
+                        value={s.url || ""}
+                        onChange={e => updateSocial(i, "url", e.target.value)}
+                        className=""
+                      />
+                      <div className="col-span-2 text-right">
+                        <Button
+                          type="button"
+                          variant="danger"
+                          onClick={() => removeSocial(i)}
+                          className="text-xs px-2 py-1"
+                        >
+                          Hapus
+                        </Button>
+                      </div>
                     </div>
                   ))}
-                  <button type="button" onClick={addSocial} className="text-sm px-3 py-1.5 rounded bg-neutral-100">+ Tambah</button>
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    onClick={addSocial}
+                    className="text-sm"
+                  >
+                    + Tambah
+                  </Button>
                 </div>
               </div>
-
               <div className="pt-2">
-                <button type="submit" className="px-4 py-2 rounded bg-black text-white">Simpan</button>
+                <Button type="submit">Simpan</Button>
               </div>
             </form>
           </section>
@@ -233,13 +273,24 @@ export default function AccountPage() {
             <div className="text-sm">Saat ini: <b>{username || "(belum ada)"}</b></div>
             <div className="text-xs text-neutral-600 mt-1">Ganti username berbayar Rp.100.000. Saldo IDR akan dipotong otomatis.</div>
             <div className="mt-2 flex gap-2">
-              <input className="rounded border px-3 py-2" placeholder="Username baru" value={newUsername} onChange={e => setNewUsername(e.target.value)} />
-              <button onClick={changeUsername} disabled={chgLoading} className="px-4 py-2 rounded bg-black text-white disabled:opacity-50">{chgLoading ? "Memproses..." : "Ganti Username"}</button>
+              <Input
+                placeholder="Username baru"
+                value={newUsername}
+                onChange={e => setNewUsername(e.target.value)}
+                className=""
+              />
+              <Button
+                onClick={changeUsername}
+                loading={chgLoading}
+                disabled={chgLoading}
+              >
+                Ganti Username
+              </Button>
             </div>
           </section>
 
-          {error && <div className="text-sm text-red-600">{error}</div>}
-          {ok && <div className="text-sm text-green-700">{ok}</div>}
+          {error && <Alert type="error" message={error} />}
+          {ok && <Alert type="success" message={ok} />}
         </>
       )}
     </div>
