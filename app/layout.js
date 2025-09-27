@@ -14,11 +14,17 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="id">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-dvh bg-white`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-dvh bg-neutral-50`}>
         <Header />
-        <main className="pt-16 min-h-screen px-3 py-7 sm:py-10 bg-white max-w-6xl mx-auto">
-          {children}
-        </main>
+        <div className="flex flex-row min-h-screen">
+          <aside className="hidden md:block w-64 bg-white border-r border-neutral-200 shadow-sm">
+            {/* Sidebar akan di-render di sini untuk desktop */}
+            {/* ...import Sidebar dan render di sini... */}
+          </aside>
+          <main className="flex-1 pt-16 px-4 py-8 max-w-5xl mx-auto">
+            {children}
+          </main>
+        </div>
       </body>
     </html>
   );

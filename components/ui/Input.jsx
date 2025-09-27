@@ -18,11 +18,11 @@ export default function Input({
   return (
     <div className="mb-3">
       {label && (
-        <label className="block text-sm font-medium mb-1">{label}</label>
+        <label className="block text-sm font-medium mb-1 text-black">{label}</label>
       )}
       <input
         type={type}
-        className={`input ${error ? "border-red-600" : ""} ${className}`}
+        className={`input bg-white text-black border border-neutral-200 ${error ? "border-red-600" : ""} ${className}`}
         aria-invalid={!!error}
         {...rest}
       />

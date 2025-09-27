@@ -40,12 +40,14 @@ export default function MyThreadsPage() {
     if (!authed) {
       setLoading(false);
       setError("Anda harus login untuk melihat threads Anda.");
-      return;
-    }
-    let cancelled = false;
-    (async () => {
-      try { setLoading(true); setError(""); await reloadMyThreads(); }
-      catch (e) { if (!cancelled) setError(e.message || String(e)); }
+      return (
+        <section className="max-w-4xl mx-auto py-8">
+          <div className="card bg-white border border-neutral-200 shadow rounded">
+            <h1 className="text-2xl font-bold mb-6 text-black">Threads</h1>
+            {/* ...thread list... */}
+          </div>
+        </section>
+      );
       finally { if (!cancelled) setLoading(false); }
     })();
     return () => { cancelled = true; };

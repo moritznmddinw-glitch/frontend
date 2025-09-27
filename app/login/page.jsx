@@ -1,22 +1,47 @@
 export const dynamic = "force-dynamic";
 
 export default function LoginPage() {
-  const backendBase = process.env.NEXT_PUBLIC_API_BASE_URL;
-  const githubUrl = `${backendBase}/api/auth/github`;
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [error, setError] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+    try {
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Login failed");
+      localStorage.setItem("token", data.token);
+      window.location.href = "/account";
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className="max-w-md mx-auto mt-12 bg-white border rounded p-6">
-      <h2 className="text-xl font-semibold">Daftar/Masuk</h2>
-      <p className="text-sm text-neutral-600 mt-1">Pilih metode yang tersedia:</p>
-
-      <div className="mt-4">
-        <a href={githubUrl} className="inline-flex items-center gap-2 px-4 py-2 rounded bg-black text-white">
-          <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" className="fill-white">
-            <path fillRule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2-.01.21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
-          </svg>
-          <span>Via GitHub</span>
-        </a>
+    <section className="flex flex-col items-center justify-center min-h-screen bg-white">
+      <div className="card max-w-md w-full">
+        <h2 className="text-xl font-bold mb-4 text-black">Login</h2>
+        {error && <div className="alert alert-error mb-2">{error}</div>}
+        <form className="w-full flex flex-col gap-4" onSubmit={handleSubmit}>
+          <input type="text" name="username" placeholder="Username or Email" className="input" required value={username} onChange={e => setUsername(e.target.value)} />
+          <input type="password" name="password" placeholder="Password" className="input" required value={password} onChange={e => setPassword(e.target.value)} />
+          <button type="submit" className="btn w-full" disabled={loading}>{loading ? "Loading..." : "Login"}</button>
+        </form>
+        <div className="mt-4 text-center">
+          <span className="text-sm text-black">Belum punya akun? </span>
+          <a href="/register" className="text-blue-700 hover:underline">Register</a>
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

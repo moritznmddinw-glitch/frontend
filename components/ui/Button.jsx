@@ -19,13 +19,12 @@ export default function Button({
   className = "",
   ...rest
 }) {
-  const base =
-    "btn transition-fast font-medium";
+  const base = "btn transition-fast font-medium border border-neutral-200 bg-white text-black hover:bg-neutral-100";
   const variantClass = {
-    primary: "bg-blue-600 hover:bg-blue-700 text-white",
-    secondary: "bg-neutral-100 hover:bg-neutral-200 text-black border border-neutral-200",
-    danger: "bg-red-600 hover:bg-red-700 text-white",
-  }[variant] || variantClass.primary;
+    primary: "bg-black text-white hover:bg-neutral-900",
+    secondary: "bg-white text-black hover:bg-neutral-100",
+    danger: "bg-red-600 text-white hover:bg-red-700",
+  }[variant] || "bg-black text-white hover:bg-neutral-900";
 
   return (
     <button

@@ -5,6 +5,6 @@ import React from "react";
  */
 export default function Spinner({ className = "" }) {
   return (
-    <span className={`spinner ${className}`} aria-label="Loading" />
+    <span className={`spinner border-neutral-200 border-t-black ${className}`} aria-label="Loading" />
   );
 }
